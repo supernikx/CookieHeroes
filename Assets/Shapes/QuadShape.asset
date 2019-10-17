@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: QuadShape
   m_EditorClassIdentifier: 
   shapeSprite: {fileID: 21300000, guid: 811e90d42ec17c84c94e62118c55e65e, type: 3}
+  uiShapeSprite: {fileID: 21300000, guid: 811e90d42ec17c84c94e62118c55e65e, type: 3}

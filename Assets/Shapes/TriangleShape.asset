@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: TriangleShape
   m_EditorClassIdentifier: 
   shapeSprite: {fileID: 21300000, guid: be9f7329b6a5e9a499b05048922c562e, type: 3}
+  uiShapeSprite: {fileID: 21300000, guid: be9f7329b6a5e9a499b05048922c562e, type: 3}
