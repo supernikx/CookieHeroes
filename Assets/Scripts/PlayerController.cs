@@ -7,9 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     public Action<ShapeScriptable> OnShapeChanged;
 
-    [SerializeField]
-    private List<ShapeScriptable> shapes;
-
     private SpriteRenderer spriteRenderer;
     private bool inputEnabled;
     private int shapeIndex = 0;
@@ -22,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     public void Enable()
     {
-        spriteRenderer.sprite = shapes[shapeIndex].shapeSprite;
+        spriteRenderer.sprite = GetCurrentShape().shapeSprite;
         inputEnabled = spriteRenderer.enabled = true;
     }
 
@@ -31,19 +28,15 @@ public class PlayerController : MonoBehaviour
         if (!inputEnabled)
             return;
 
-        shapeIndex = FixShapeIndex(_shapeIndex);
-        spriteRenderer.sprite = shapes[shapeIndex].shapeSprite;
-        OnShapeChanged?.Invoke(shapes[shapeIndex]);
-    }
-
-    public ShapeScriptable GetShapeByIndex(int _shapeIndex)
-    {
-        return shapes[FixShapeIndex(_shapeIndex)];
+        shapeIndex = ShapeController.FixShapeIndex(_shapeIndex);
+        ShapeScriptable newShape = ShapeController.GetShapeByIndex(shapeIndex);
+        spriteRenderer.sprite = newShape.shapeSprite;
+        OnShapeChanged?.Invoke(newShape);
     }
 
     public ShapeScriptable GetCurrentShape()
     {
-        return shapes[shapeIndex];
+        return ShapeController.GetShapeByIndex(shapeIndex);
     }
 
     public int GetCurrentShapeIndex()
@@ -59,16 +52,5 @@ public class PlayerController : MonoBehaviour
     public void Disable()
     {
         inputEnabled = spriteRenderer.enabled = false;
-    }
-
-    private int FixShapeIndex(int _shapeIndex)
-    {
-        if (_shapeIndex > shapes.Count - 1)
-            return 0;
-
-        if (_shapeIndex < 0)
-            return shapes.Count - 1;
-
-        return _shapeIndex;
     }
 }

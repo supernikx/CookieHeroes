@@ -19,6 +19,7 @@ public class GameSMGameplayState : GameSMBaseState
 
         playeCtrl.OnShapeChanged += HandleOnShapeChange;
         context.GetGameManager().OnGameEnd += HandleOnGameEnd;
+        ShapeController.OnNewShapeAdd += HandleOnNewShapeAdd;
 
         playeCtrl.Enable();
         gameplayPanel = uiMng.GetMenu<UIMenu_Gameplay>();
@@ -43,7 +44,12 @@ public class GameSMGameplayState : GameSMBaseState
     private void HandleOnShapeChange(ShapeScriptable _newShape)
     {
         int currentShapeIndex = playeCtrl.GetCurrentShapeIndex();
-        gameplayPanel.UpdateShape(_newShape, playeCtrl.GetShapeByIndex(currentShapeIndex - 1), playeCtrl.GetShapeByIndex(currentShapeIndex + 1));
+        gameplayPanel.UpdateShape(_newShape, ShapeController.GetShapeByIndex(currentShapeIndex - 1), ShapeController.GetShapeByIndex(currentShapeIndex + 1));
+    }
+
+    private void HandleOnNewShapeAdd(ShapeMatchScriptable _newShape)
+    {
+        playeCtrl.ChangeShape(ShapeController.GetIndexByShape(_newShape));
     }
 
     private void HandleOnGameEnd()
@@ -55,6 +61,7 @@ public class GameSMGameplayState : GameSMBaseState
     {
         context.GetGameManager().OnGameEnd -= HandleOnGameEnd;
         playeCtrl.OnShapeChanged -= HandleOnShapeChange;
+        ShapeController.OnNewShapeAdd -= HandleOnNewShapeAdd;
 
         context.GetGameManager().GetPlayerController().Disable();
         spawnCtrl.StopSpawn();

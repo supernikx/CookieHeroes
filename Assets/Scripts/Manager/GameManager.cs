@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     GameSMController smCtrl;
     UI_Manager uiMng;
     PlayerController playerCtrl;
+    ShapeController shapeCtrl;
     ShapeSpawnController spawnCtrl;
 
     private void Awake()
@@ -25,9 +26,11 @@ public class GameManager : MonoBehaviour
     {
         smCtrl = _smCtrl;
         uiMng = FindObjectOfType<UI_Manager>();
+        shapeCtrl = FindObjectOfType<ShapeController>();
         spawnCtrl = FindObjectOfType<ShapeSpawnController>();
         playerCtrl = FindObjectOfType<PlayerController>();
 
+        shapeCtrl.Setup(this);
         uiMng.Setup();
         playerCtrl.Setup();
     }
@@ -35,6 +38,11 @@ public class GameManager : MonoBehaviour
     public PlayerController GetPlayerController()
     {
         return playerCtrl;
+    }
+
+    public ShapeController GetShapeController()
+    {
+        return shapeCtrl;
     }
 
     public ShapeSpawnController GetSpawnController()

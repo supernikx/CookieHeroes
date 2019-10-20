@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +10,9 @@ public class ShapeSpawnController : MonoBehaviour
     [SerializeField]
     private ShapeMatch shapePrefab;
     [SerializeField]
-    private List<ShapeMatchScriptable> shapes;
+    private int addNewShapeAfter;
 
+    private int shapeSpawnedBeforeNewShape;
     private List<ShapeMatch> spawnedShapes;
     private IEnumerator spawnWaveRoutine;
 
@@ -20,6 +22,7 @@ public class ShapeSpawnController : MonoBehaviour
 
         spawnedShapes = new List<ShapeMatch>();
         spawnWaveRoutine = SpawnShapeCoroutine();
+        shapeSpawnedBeforeNewShape = 0;
         StartCoroutine(spawnWaveRoutine);
     }
 
@@ -28,10 +31,16 @@ public class ShapeSpawnController : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(timeBetweenShapes);
-            ShapeMatchScriptable shapeToSpawn = shapes[Random.Range(0, shapes.Count)];
+            ShapeMatchScriptable shapeToSpawn = ShapeController.GetRandomShapeMatch();
             ShapeMatch newShape = Instantiate(shapePrefab, transform.position, Quaternion.identity, transform);
             newShape.Setup(shapeToSpawn);
             spawnedShapes.Add(newShape);
+            shapeSpawnedBeforeNewShape++;
+            if (shapeSpawnedBeforeNewShape == addNewShapeAfter)
+            {
+                ShapeController.AddNewShape();
+                shapeSpawnedBeforeNewShape = 0;
+            }
         }
     }
 

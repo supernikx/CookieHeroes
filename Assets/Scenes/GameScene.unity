@@ -538,7 +538,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.20442933, y: 0.023561439}
   m_AnchorMax: {x: 0.3585707, y: 0.10276749}
-  m_AnchoredPosition: {x: -0.1000061, y: -0.9000244}
+  m_AnchoredPosition: {x: -0.099975586, y: -0.9000244}
   m_SizeDelta: {x: -0.19999695, y: 0.19999695}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &107535716
@@ -772,7 +772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2638148, y: 0.328}
   m_AnchorMax: {x: 0.73162967, y: 0.4134791}
-  m_AnchoredPosition: {x: 2.5000458, y: -2}
+  m_AnchoredPosition: {x: 2.5000305, y: -2}
   m_SizeDelta: {x: -2.399994, y: -3.399994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &331005682
@@ -1199,6 +1199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 637295187}
   - component: {fileID: 637295188}
+  - component: {fileID: 637295189}
   m_Layer: 0
   m_Name: ShapeSpawner
   m_TagString: Untagged
@@ -1235,10 +1236,25 @@ MonoBehaviour:
   timeBetweenShapes: 2
   shapePrefab: {fileID: 8854078696492095894, guid: a9c228ffdc087724eb1641107e6d882a,
     type: 3}
-  shapes:
+  addNewShapeAfter: 3
+--- !u!114 &637295189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637295186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d8ab893abd7e2439a4dd9c5900e346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startShapes:
   - {fileID: 11400000, guid: 92f0c5297973c66499a986372605a2cb, type: 2}
   - {fileID: 11400000, guid: 4e3afef8c15e8f64d88dd3860dead912, type: 2}
+  addShapes:
   - {fileID: 11400000, guid: 88dfa4903e6f9524ab9fba5eaf90f47d, type: 2}
+  - {fileID: 11400000, guid: a39bd83f9df96574292527fe8314e2b2, type: 2}
 --- !u!1 &906932374
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,10 +2103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1deef174b63ff1b4c91668647abe07ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shapes:
-  - {fileID: 11400000, guid: 762937252452b0443bd94dd2896be0be, type: 2}
-  - {fileID: 11400000, guid: f2dfc3d35dd46da4caa27f85e64a941f, type: 2}
-  - {fileID: 11400000, guid: a53409f17dc05234e97ea33eed19b0d3, type: 2}
 --- !u!61 &1807557042
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2384,6 +2396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de87bb4d6a9bda44d85f46ce02ad2e63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swipeResistanceX: 50
+  swipeResistanceY: 100
 --- !u!1 &2025475214
 GameObject:
   m_ObjectHideFlags: 0
