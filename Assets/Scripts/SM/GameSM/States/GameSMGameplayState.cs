@@ -6,7 +6,9 @@ using System;
 /// </summary>
 public class GameSMGameplayState : GameSMBaseState
 {
-    PlayerController playeCtrl;
+    ScoreController scoreCtrl;
+    ShapeController shapeCtrl;
+    BackgroundManager bgMng;
     ShapeSpawnController spawnCtrl;
     UI_Manager uiMng;
     UIMenu_Gameplay gameplayPanel;
@@ -15,41 +17,53 @@ public class GameSMGameplayState : GameSMBaseState
     {
         spawnCtrl = context.GetGameManager().GetSpawnController();
         uiMng = context.GetGameManager().GetUIManager();
-        playeCtrl = context.GetGameManager().GetPlayerController();
+        shapeCtrl = context.GetGameManager().GetShapeController();
+        bgMng = context.GetGameManager().GetBackgroundManager();
+        scoreCtrl = context.GetGameManager().GetScoreController();
 
-        playeCtrl.OnShapeChanged += HandleOnShapeChange;
-        context.GetGameManager().OnGameEnd += HandleOnGameEnd;
+        PrintController.OnShapeGuessed += HandleOnShapeGuessed;
+        ShapeController.OnShapeChanged += HandleOnShapeChange;
         ShapeController.OnNewShapeAdd += HandleOnNewShapeAdd;
+        context.GetGameManager().OnGameEnd += HandleOnGameEnd;
 
-        playeCtrl.Enable();
         gameplayPanel = uiMng.GetMenu<UIMenu_Gameplay>();
         uiMng.SetCurrentMenu<UIMenu_Gameplay>();
-        HandleOnShapeChange(playeCtrl.GetCurrentShape());
 
+        scoreCtrl.Init();
+        bgMng.StartBackground();
         spawnCtrl.StartSpawn();
+
+        gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());
+        HandleOnShapeChange(ShapeController.GetCurrentShape());
     }
 
     public override void Tick()
     {
         if (SwipeController.IsSwiping(Direction.Right))
         {
-            playeCtrl.ChangeShape(playeCtrl.GetCurrentShapeIndex() - 1);
+            shapeCtrl.ChangeShape(ShapeController.GetCurrentShapeIndex() - 1);
         }
         else if (SwipeController.IsSwiping(Direction.Left))
         {
-            playeCtrl.ChangeShape(playeCtrl.GetCurrentShapeIndex() + 1);
+            shapeCtrl.ChangeShape(ShapeController.GetCurrentShapeIndex() + 1);
         }
     }
 
     private void HandleOnShapeChange(ShapeScriptable _newShape)
     {
-        int currentShapeIndex = playeCtrl.GetCurrentShapeIndex();
+        int currentShapeIndex = ShapeController.GetCurrentShapeIndex();
         gameplayPanel.UpdateShape(_newShape, ShapeController.GetShapeByIndex(currentShapeIndex - 1), ShapeController.GetShapeByIndex(currentShapeIndex + 1));
     }
 
-    private void HandleOnNewShapeAdd(ShapeMatchScriptable _newShape)
+    private void HandleOnNewShapeAdd(ShapeScriptable _newShape)
     {
-        playeCtrl.ChangeShape(ShapeController.GetIndexByShape(_newShape));
+        shapeCtrl.ChangeShape(ShapeController.GetIndexByShape(_newShape));
+    }
+
+    private void HandleOnShapeGuessed()
+    {
+        scoreCtrl.AddScore();
+        gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());
     }
 
     private void HandleOnGameEnd()
@@ -60,10 +74,11 @@ public class GameSMGameplayState : GameSMBaseState
     public override void Exit()
     {
         context.GetGameManager().OnGameEnd -= HandleOnGameEnd;
-        playeCtrl.OnShapeChanged -= HandleOnShapeChange;
+        ShapeController.OnShapeChanged -= HandleOnShapeChange;
         ShapeController.OnNewShapeAdd -= HandleOnNewShapeAdd;
+        PrintController.OnShapeGuessed -= HandleOnShapeGuessed;
 
-        context.GetGameManager().GetPlayerController().Disable();
+        bgMng.ResetBackground();
         spawnCtrl.StopSpawn();
     }
 }

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6801e6eb79866af488bb53f577b3df5d, type: 3}
   m_Name: UShape
   m_EditorClassIdentifier: 
-  shapeSprite: {fileID: 21300000, guid: 8a244c7b2f6f9b44080cfd0111780da2, type: 3}
+  guessShapeSprite: {fileID: 21300000, guid: 8a244c7b2f6f9b44080cfd0111780da2, type: 3}
+  shapeSprite: {fileID: 21300000, guid: ef6ef714323f76e42a201092cb6aa1d2, type: 3}
   uiShapeSprite: {fileID: 21300000, guid: fc92be8e009c9be4e9388e593a379378, type: 3}

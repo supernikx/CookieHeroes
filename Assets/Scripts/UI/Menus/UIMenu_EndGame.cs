@@ -1,21 +1,27 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using IC.UIBase;
 
 public class UIMenu_EndGame : UIControllerBase
 {
     public Action RetyButtonPressed;
-    public Action MainMenuButtonPressed;
+
+    [SerializeField]
+    private TextMeshProUGUI cookieCounterText;
+
+    public override void ToggleMenu(bool _value)
+    {
+        base.ToggleMenu(_value);
+
+        if (isActive)
+        {
+            cookieCounterText.text = "X" + manager.GetGameManager().GetScoreController().GetCurrentScore().ToString();
+        }
+    }
 
     public void RetryButton()
     {
         RetyButtonPressed?.Invoke();
-    }
-
-    public void MainMenuButton()
-    {
-        MainMenuButtonPressed?.Invoke();
     }
 }

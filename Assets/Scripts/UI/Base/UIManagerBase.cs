@@ -26,12 +26,17 @@ namespace IC.UIBase
         /// Menù attualmente selezionato
         /// </summary>
         protected UIControllerBase currentMenu;
+        /// <summary>
+        /// Riferimento al GameManager
+        /// </summary>
+        protected GameManager gm;
 
         /// <summary>
         /// Setup della classe
         /// </summary>
-        public void Setup()
+        public void Setup(GameManager _gm)
         {
+            gm = _gm;
             menus = GetComponentsInChildren<UIControllerBase>(true).ToList();
 
             for (int i = 0; i < menus.Count; i++)
@@ -147,6 +152,15 @@ namespace IC.UIBase
         public UIControllerBase GetCurrentMenu()
         {
             return currentMenu;
+        }
+
+        /// <summary>
+        /// Funzione che ritorna il Game Manager
+        /// </summary>
+        /// <returns></returns>
+        public GameManager GetGameManager()
+        {
+            return gm;
         }
 
         /// <summary>

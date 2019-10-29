@@ -10,15 +10,15 @@ public class ShapeMatch : MonoBehaviour
     [SerializeField]
     private float shapeSpeed;
 
-    ShapeMatchScriptable shape;
+    ShapeScriptable shape;
     SpriteRenderer spriteRenderer;
     bool isSetupped = false;
 
-    public void Setup(ShapeMatchScriptable _shape)
+    public void Setup(ShapeScriptable _shape)
     {
         shape = _shape;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = shape.sprite;
+        spriteRenderer.sprite = shape.guessShapeSprite;
 
         isSetupped = true;
     }
@@ -28,23 +28,18 @@ public class ShapeMatch : MonoBehaviour
         if (!isSetupped)
             return;
 
-        transform.Translate(Vector3.down * shapeSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, shapeSpeed);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public bool CheckShape(ShapeScriptable _shape)
     {
-        PlayerController player = collision.GetComponent<PlayerController>();
-        if (player != null)
+        if (ShapeController.GetCurrentShape() == shape)
         {
-            if (player.GetCurrentShape() == shape.shape)
-            {
-                DestroyShape();
-            }
-            else
-            {
-                player.Die();
-            }
+            spriteRenderer.sprite = shape.shapeSprite;
+            return true;
         }
+
+        return false;
     }
 
     public void DestroyShape()

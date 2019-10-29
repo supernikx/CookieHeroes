@@ -8,17 +8,21 @@ public class ShapeController : MonoBehaviour
     private static ShapeController i;
 
     #region Action
-    public static Action<ShapeMatchScriptable> OnNewShapeAdd;
+    public static Action<ShapeScriptable> OnShapeChanged;
+    public static Action<ShapeScriptable> OnNewShapeAdd;
     #endregion
 
     [SerializeField]
-    private List<ShapeMatchScriptable> startShapes;
+    private List<ShapeScriptable> startShapes;
     [SerializeField]
-    private List<ShapeMatchScriptable> addShapes;
+    private List<ShapeScriptable> addShapes;
+    [SerializeField]
+    private int startShapeIndex;
 
     private GameManager gm;
-    private List<ShapeMatchScriptable> shapesToAdd;
-    private List<ShapeMatchScriptable> currentShapes;
+    private List<ShapeScriptable> shapesToAdd;
+    private List<ShapeScriptable> currentShapes;
+    private int shapeIndex = 0;
 
     public void Setup(GameManager _gm)
     {
@@ -31,7 +35,7 @@ public class ShapeController : MonoBehaviour
         gm.OnGameEnd += HandleGameEnd;
     }
 
-    public static ShapeMatchScriptable GetRandomShapeMatch()
+    public static ShapeScriptable GetRandomShapeMatch()
     {
         return i.currentShapes[UnityEngine.Random.Range(0, i.currentShapes.Count)];
     }
@@ -39,10 +43,27 @@ public class ShapeController : MonoBehaviour
     public static ShapeScriptable GetShapeByIndex(int _shapeIndex)
     {
         _shapeIndex = FixShapeIndex(_shapeIndex);
-        return i.currentShapes[_shapeIndex].shape;
+        return i.currentShapes[_shapeIndex];
     }
 
-    public static int GetIndexByShape(ShapeMatchScriptable _shape)
+    public void ChangeShape(int _shapeIndex)
+    {
+        shapeIndex = ShapeController.FixShapeIndex(_shapeIndex);
+        ShapeScriptable newShape = ShapeController.GetShapeByIndex(shapeIndex);
+        OnShapeChanged?.Invoke(newShape);
+    }
+
+    public static int GetCurrentShapeIndex()
+    {
+        return i.shapeIndex;
+    }
+
+    public static ShapeScriptable GetCurrentShape()
+    {
+        return GetShapeByIndex(GetCurrentShapeIndex());
+    }
+
+    public static int GetIndexByShape(ShapeScriptable _shape)
     {
         for (int j = 0; j < i.currentShapes.Count; j++)
         {
@@ -66,15 +87,19 @@ public class ShapeController : MonoBehaviour
 
     public static void AddNewShape()
     {
-        ShapeMatchScriptable shapeToAdd = i.shapesToAdd[0];
-        i.shapesToAdd.RemoveAt(0);
-        i.currentShapes.Add(shapeToAdd);
-        OnNewShapeAdd?.Invoke(shapeToAdd);
+        if (i.shapesToAdd != null && i.shapesToAdd.Count > 0)
+        {
+            ShapeScriptable shapeToAdd = i.shapesToAdd[0];
+            i.shapesToAdd.RemoveAt(0);
+            i.currentShapes.Add(shapeToAdd);
+            OnNewShapeAdd?.Invoke(shapeToAdd);
+        }
     }
 
     private void HandleGameEnd()
     {
         shapesToAdd = addShapes;
         currentShapes = startShapes;
+        shapeIndex = startShapeIndex;
     }
 }

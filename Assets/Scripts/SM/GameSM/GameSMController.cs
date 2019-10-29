@@ -70,19 +70,13 @@ public class GameSMController : StateMachineBase
                 GoToState("MainMenu");
                 break;
             case "MainMenu":
-                GoToState("SetupScene");
-                break;
-            case "SetupScene":
                 GoToState("Gameplay");
                 break;
             case "Gameplay":
                 GoToState("EndGame");
                 break;
             case "EndGame":
-                if (_exitCondition == 0)
-                    GoToState("SetupScene");
-                else if (_exitCondition == 1)
-                    GoToState("MainMenu");
+                GoToState("Gameplay");
                 break;
         }
     }

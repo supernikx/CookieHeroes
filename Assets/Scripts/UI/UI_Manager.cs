@@ -5,5 +5,5 @@ using IC.UIBase;
 
 public class UI_Manager : UIManagerBase
 {
-    
+
 }

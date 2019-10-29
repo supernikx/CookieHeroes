@@ -11,11 +11,13 @@ public class GameManager : MonoBehaviour
 
     private static GameManager i;
 
+    Camera cam;
+    BackgroundManager bgMng;
     GameSMController smCtrl;
     UI_Manager uiMng;
-    PlayerController playerCtrl;
     ShapeController shapeCtrl;
     ShapeSpawnController spawnCtrl;
+    ScoreController scoreCtrl;
 
     private void Awake()
     {
@@ -28,16 +30,19 @@ public class GameManager : MonoBehaviour
         uiMng = FindObjectOfType<UI_Manager>();
         shapeCtrl = FindObjectOfType<ShapeController>();
         spawnCtrl = FindObjectOfType<ShapeSpawnController>();
-        playerCtrl = FindObjectOfType<PlayerController>();
+        cam = FindObjectOfType<Camera>();
+        bgMng = FindObjectOfType<BackgroundManager>();
+        scoreCtrl = GetComponent<ScoreController>();
 
         shapeCtrl.Setup(this);
-        uiMng.Setup();
-        playerCtrl.Setup();
+        spawnCtrl.Setup(this);
+        uiMng.Setup(this);
+        bgMng.Setup(cam);
     }
 
-    public PlayerController GetPlayerController()
+    public BackgroundManager GetBackgroundManager()
     {
-        return playerCtrl;
+        return bgMng;
     }
 
     public ShapeController GetShapeController()
@@ -53,6 +58,16 @@ public class GameManager : MonoBehaviour
     public UI_Manager GetUIManager()
     {
         return uiMng;
+    }
+
+    public ScoreController GetScoreController()
+    {
+        return scoreCtrl;
+    }
+
+    public Camera GetCamera()
+    {
+        return cam;
     }
 
     public static void GameOver()

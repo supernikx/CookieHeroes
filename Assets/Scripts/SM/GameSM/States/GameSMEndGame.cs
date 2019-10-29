@@ -15,16 +15,10 @@ public class GameSMEndGame : GameSMBaseState
 
         endGamePanel = uiMng.GetMenu<UIMenu_EndGame>();
         endGamePanel.RetyButtonPressed = RetryButtonPressed;
-        endGamePanel.MainMenuButtonPressed = MainMenuButtonPressed;
     }
 
     private void RetryButtonPressed()
     {
         Complete(0);
-    }
-
-    private void MainMenuButtonPressed()
-    {
-        Complete(1);
     }
 }

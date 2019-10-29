@@ -12,9 +12,15 @@ public class ShapeSpawnController : MonoBehaviour
     [SerializeField]
     private int addNewShapeAfter;
 
+    private Bounds bgBounds;
     private int shapeSpawnedBeforeNewShape;
     private List<ShapeMatch> spawnedShapes;
     private IEnumerator spawnWaveRoutine;
+
+    public void Setup(GameManager _gm)
+    {
+        bgBounds = _gm.GetBackgroundManager().GetBackgroundBounds();
+    }
 
     public void StartSpawn()
     {
@@ -31,8 +37,17 @@ public class ShapeSpawnController : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(timeBetweenShapes);
-            ShapeMatchScriptable shapeToSpawn = ShapeController.GetRandomShapeMatch();
-            ShapeMatch newShape = Instantiate(shapePrefab, transform.position, Quaternion.identity, transform);
+            ShapeScriptable shapeToSpawn = ShapeController.GetRandomShapeMatch();
+
+            //Calculate Random Position
+            float randomXValue = UnityEngine.Random.Range((bgBounds.center.x - bgBounds.extents.x) + 1f, (bgBounds.center.x + bgBounds.extents.x) - 1f);
+            Vector3 spawnVector = new Vector3(randomXValue , transform.position.y, transform.position.z);
+
+            //Calculate Random Rotation
+            float randomRoation = UnityEngine.Random.Range(-60f, 60f);
+            Quaternion spawnRotation = Quaternion.Euler(0, 0, randomRoation);
+
+            ShapeMatch newShape = Instantiate(shapePrefab, spawnVector, spawnRotation, transform);
             newShape.Setup(shapeToSpawn);
             spawnedShapes.Add(newShape);
             shapeSpawnedBeforeNewShape++;
