@@ -1,5 +1,6 @@
-﻿using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Stato di Gameplay della GameSM
@@ -13,6 +14,8 @@ public class GameSMGameplayState : GameSMBaseState
     UI_Manager uiMng;
     UIMenu_Gameplay gameplayPanel;
 
+    bool videoAlreadyWhatched;
+
     public override void Enter()
     {
         spawnCtrl = context.GetGameManager().GetSpawnController();
@@ -22,6 +25,7 @@ public class GameSMGameplayState : GameSMBaseState
         scoreCtrl = context.GetGameManager().GetScoreController();
 
         PrintController.OnShapeGuessed += HandleOnShapeGuessed;
+        PrintController.OnShapeWrong += HandleOnShapeWrong;
         ShapeController.OnShapeChanged += HandleOnShapeChange;
         ShapeController.OnNewShapeAdd += HandleOnNewShapeAdd;
         context.GetGameManager().OnGameEnd += HandleOnGameEnd;
@@ -35,6 +39,8 @@ public class GameSMGameplayState : GameSMBaseState
 
         gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());
         HandleOnShapeChange(ShapeController.GetCurrentShape());
+
+        videoAlreadyWhatched = false;
     }
 
     public override void Tick()
@@ -49,6 +55,7 @@ public class GameSMGameplayState : GameSMBaseState
         }
     }
 
+    #region Handlers
     private void HandleOnShapeChange(ShapeScriptable _newShape)
     {
         int currentShapeIndex = ShapeController.GetCurrentShapeIndex();
@@ -66,10 +73,32 @@ public class GameSMGameplayState : GameSMBaseState
         gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());
     }
 
+
+    private void HandleOnShapeWrong()
+    {
+        if (videoAlreadyWhatched)
+            GameManager.GameOver();
+        else
+        {
+            Time.timeScale = 0;
+            gameplayPanel.EnableVideoRewardPanel(HandleOnRewardedVideoEnd);
+        }
+    }
+
+    private void HandleOnRewardedVideoEnd(bool _result)
+    {
+        Time.timeScale = 1;
+        if (!_result)
+            GameManager.GameOver();
+        else
+            videoAlreadyWhatched = true;
+    }
+
     private void HandleOnGameEnd()
     {
         Complete();
     }
+    #endregion
 
     public override void Exit()
     {
@@ -77,6 +106,7 @@ public class GameSMGameplayState : GameSMBaseState
         ShapeController.OnShapeChanged -= HandleOnShapeChange;
         ShapeController.OnNewShapeAdd -= HandleOnNewShapeAdd;
         PrintController.OnShapeGuessed -= HandleOnShapeGuessed;
+        PrintController.OnShapeWrong -= HandleOnShapeWrong;
 
         bgMng.ResetBackground();
         spawnCtrl.StopSpawn();

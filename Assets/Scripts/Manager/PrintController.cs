@@ -4,6 +4,7 @@ using UnityEngine;
 public class PrintController : MonoBehaviour
 {
     public static Action OnShapeGuessed;
+    public static Action OnShapeWrong;
     private Animator anim;
 
     private void Awake()
@@ -24,7 +25,7 @@ public class PrintController : MonoBehaviour
                 return;
             }
 
-            GameManager.GameOver();
+            OnShapeWrong?.Invoke();            
         }
     }
 }
