@@ -14,6 +14,7 @@ public class GameSMGameplayState : GameSMBaseState
     UI_Manager uiMng;
     UIMenu_Gameplay gameplayPanel;
 
+    bool readInput;
     bool videoAlreadyWhatched;
 
     public override void Enter()
@@ -41,15 +42,16 @@ public class GameSMGameplayState : GameSMBaseState
         HandleOnShapeChange(ShapeController.GetCurrentShape());
 
         videoAlreadyWhatched = false;
+        readInput = true;
     }
 
     public override void Tick()
     {
-        if (SwipeController.IsSwiping(Direction.Right))
+        if (readInput && SwipeController.IsSwiping(Direction.Right))
         {
             shapeCtrl.ChangeShape(ShapeController.GetCurrentShapeIndex() - 1);
         }
-        else if (SwipeController.IsSwiping(Direction.Left))
+        else if (readInput && SwipeController.IsSwiping(Direction.Left))
         {
             shapeCtrl.ChangeShape(ShapeController.GetCurrentShapeIndex() + 1);
         }
@@ -81,6 +83,7 @@ public class GameSMGameplayState : GameSMBaseState
         else
         {
             Time.timeScale = 0;
+            readInput = false;
             gameplayPanel.EnableVideoRewardPanel(HandleOnRewardedVideoEnd);
         }
     }
@@ -88,10 +91,14 @@ public class GameSMGameplayState : GameSMBaseState
     private void HandleOnRewardedVideoEnd(bool _result)
     {
         Time.timeScale = 1;
+
         if (!_result)
             GameManager.GameOver();
         else
+        {
+            readInput = true;
             videoAlreadyWhatched = true;
+        }
     }
 
     private void HandleOnGameEnd()
