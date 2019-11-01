@@ -1513,7 +1513,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.36200002, y: 0.15855663}
   m_AnchorMax: {x: 0.63246566, y: 0.46214783}
-  m_AnchoredPosition: {x: 2.000023, y: -0.5}
+  m_AnchoredPosition: {x: 2.0000305, y: -0.5}
   m_SizeDelta: {x: -1.300003, y: 1.1000061}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &874806736
@@ -2961,6 +2961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1855727364}
   - component: {fileID: 1855727363}
+  - component: {fileID: 1855727369}
   - component: {fileID: 1855727366}
   - component: {fileID: 1855727367}
   - component: {fileID: 1855727368}
@@ -3056,6 +3057,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startScore: 0
+--- !u!114 &1855727369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855727362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b0711b61d39dc548968eb731d2d5467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameID: 3345074
+  testMode: 1
+  rewardedVideoPlacementID: rewardedVideo
+  regularPlacementID: video
 --- !u!1 &1883714898
 GameObject:
   m_ObjectHideFlags: 0

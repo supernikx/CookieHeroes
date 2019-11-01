@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using IC.UIBase;
 using TMPro;
 
+#if UNITY_ADS
+using UnityEngine.Advertisements;
+#endif
+
 public class UIMenu_Gameplay : UIControllerBase
 {
     [Header("Score Reference")]
@@ -61,7 +65,26 @@ public class UIMenu_Gameplay : UIControllerBase
             StopCoroutine(videoRewardPanelRoutine);
 
         videoRewardPanel.SetActive(false);
-        OnPanelEndCallback?.Invoke(true);
+        UnityAdsManager.instance.ShowRewardedAD(ADCallback);
+    }
+
+    private void ADCallback(ShowResult _results)
+    {
+        bool result = false;
+        switch (_results)
+        {
+            case ShowResult.Failed:
+                result = false;
+                break;
+            case ShowResult.Skipped:
+                result = false;
+                break;
+            case ShowResult.Finished:
+                result = true;
+                break;
+        }
+
+        OnPanelEndCallback?.Invoke(result);
     }
 
     private IEnumerator VideoRewardPanelCoroutine()

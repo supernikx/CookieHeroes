@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_ADS
+using UnityEngine.Advertisements;
+#endif
+
 public class GameSMEndGame : GameSMBaseState
 {
     UI_Manager uiMng;
@@ -15,6 +19,8 @@ public class GameSMEndGame : GameSMBaseState
 
         endGamePanel = uiMng.GetMenu<UIMenu_EndGame>();
         endGamePanel.RetyButtonPressed = RetryButtonPressed;
+
+        UnityAdsManager.instance.ShowRegularAD(null);
     }
 
     private void RetryButtonPressed()
