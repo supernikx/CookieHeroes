@@ -15,12 +15,11 @@ public class GameSMEndGame : GameSMBaseState
     public override void Enter()
     {
         uiMng = context.GetGameManager().GetUIManager();
-        uiMng.SetCurrentMenu<UIMenu_EndGame>();
+        UnityAdsManager.instance.ShowRegularAD(null);
 
+        uiMng.SetCurrentMenu<UIMenu_EndGame>();
         endGamePanel = uiMng.GetMenu<UIMenu_EndGame>();
         endGamePanel.RetyButtonPressed = RetryButtonPressed;
-
-        UnityAdsManager.instance.ShowRegularAD(null);
     }
 
     private void RetryButtonPressed()
