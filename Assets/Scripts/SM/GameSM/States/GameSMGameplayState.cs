@@ -115,7 +115,10 @@ public class GameSMGameplayState : GameSMBaseState
         PrintController.OnShapeGuessed -= HandleOnShapeGuessed;
         PrintController.OnShapeWrong -= HandleOnShapeWrong;
 
-        bgMng.ResetBackground();
-        spawnCtrl.StopSpawn();
+        if (bgMng != null)
+            bgMng.ResetBackground();
+
+        if (spawnCtrl != null)
+            spawnCtrl.StopSpawn();
     }
 }

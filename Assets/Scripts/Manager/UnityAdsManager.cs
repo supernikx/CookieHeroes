@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
-#if UNITY_ADS
 using UnityEngine.Advertisements;
-#endif
 
 public class UnityAdsManager : MonoBehaviour
 {
@@ -26,7 +24,6 @@ public class UnityAdsManager : MonoBehaviour
 
     public void ShowRegularAD(Action<ShowResult> _callback)
     {
-#if UNITY_ADS
         if (Advertisement.IsReady(regularPlacementID))
         {
             ShowOptions so = new ShowOptions();
@@ -35,12 +32,10 @@ public class UnityAdsManager : MonoBehaviour
         }
         else
             Debug.Log("AD Not Ready");
-#endif
     }
 
     public void ShowRewardedAD(Action<ShowResult> _callback)
     {
-#if UNITY_ADS
         if (Advertisement.IsReady(rewardedVideoPlacementID))
         {
             ShowOptions so = new ShowOptions();
@@ -49,6 +44,5 @@ public class UnityAdsManager : MonoBehaviour
         }
         else
             Debug.Log("AD Not Ready");
-#endif
     }
 }

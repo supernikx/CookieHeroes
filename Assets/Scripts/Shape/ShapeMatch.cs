@@ -11,14 +11,18 @@ public class ShapeMatch : MonoBehaviour
     private float shapeSpeed;
 
     ShapeScriptable shape;
+    SpriteMask spriteMask;
     SpriteRenderer spriteRenderer;
+    Bounds bound;
     bool isSetupped = false;
 
-    public void Setup(ShapeScriptable _shape)
+    public void Setup(ShapeScriptable _shape, Camera _cam)
     {
         shape = _shape;
+        spriteMask = GetComponent<SpriteMask>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = shape.guessShapeSprite;
+        bound = _cam.GetOrthographicBounds();
 
         isSetupped = true;
     }
@@ -29,12 +33,15 @@ public class ShapeMatch : MonoBehaviour
             return;
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, shapeSpeed);
+        if (transform.position.y < bound.center.y - bound.extents.y - 1f)
+            Destroy(gameObject);
     }
 
     public bool CheckShape(ShapeScriptable _shape)
     {
         if (ShapeController.GetCurrentShape() == shape)
         {
+            spriteMask.sprite = shape.shadowSprite;
             spriteRenderer.sprite = shape.shapeSprite;
             return true;
         }

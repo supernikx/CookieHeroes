@@ -16,7 +16,7 @@ public class ScoreController : MonoBehaviour
 
     public void AddScore()
     {
-        currentScore++;
+        currentScore+=100;
     }
 
     public int GetCurrentScore()

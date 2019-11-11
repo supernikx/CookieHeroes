@@ -4,10 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using IC.UIBase;
 using TMPro;
-
-#if UNITY_ADS
 using UnityEngine.Advertisements;
-#endif
 
 public class UIMenu_Gameplay : UIControllerBase
 {

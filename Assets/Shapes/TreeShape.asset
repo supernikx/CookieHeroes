@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6801e6eb79866af488bb53f577b3df5d, type: 3}
   m_Name: TreeShape
   m_EditorClassIdentifier: 
-  guessShapeSprite: {fileID: 21300000, guid: cdeb5cc9b59b15744a1844f262499f10, type: 3}
-  shapeSprite: {fileID: 21300000, guid: 1db83e93a0c0dfb4ab62c3ad50d102da, type: 3}
+  guessShapeSprite: {fileID: 21300000, guid: ffcd0d86fa75e3c4c8896f358905cbe4, type: 3}
+  shapeSprite: {fileID: 21300000, guid: ffcd0d86fa75e3c4c8896f358905cbe4, type: 3}
   uiShapeSprite: {fileID: 21300000, guid: 14bb88744f5252a4c92a47cc56a45603, type: 3}
+  shadowSprite: {fileID: 21300000, guid: 1db83e93a0c0dfb4ab62c3ad50d102da, type: 3}

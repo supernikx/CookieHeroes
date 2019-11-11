@@ -12,6 +12,7 @@ public class ShapeSpawnController : MonoBehaviour
     [SerializeField]
     private int addNewShapeAfter;
 
+    private Camera cam;
     private Bounds bgBounds;
     private int shapeSpawnedBeforeNewShape;
     private List<ShapeMatch> spawnedShapes;
@@ -19,6 +20,7 @@ public class ShapeSpawnController : MonoBehaviour
 
     public void Setup(GameManager _gm)
     {
+        cam = _gm.GetCamera();
         bgBounds = _gm.GetBackgroundManager().GetBackgroundBounds();
     }
 
@@ -48,7 +50,7 @@ public class ShapeSpawnController : MonoBehaviour
             Quaternion spawnRotation = Quaternion.Euler(0, 0, randomRoation);
 
             ShapeMatch newShape = Instantiate(shapePrefab, spawnVector, spawnRotation, transform);
-            newShape.Setup(shapeToSpawn);
+            newShape.Setup(shapeToSpawn, cam);
             spawnedShapes.Add(newShape);
             shapeSpawnedBeforeNewShape++;
             if (shapeSpawnedBeforeNewShape == addNewShapeAfter)

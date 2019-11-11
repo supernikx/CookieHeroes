@@ -8,6 +8,8 @@ public class BackgroundManager : MonoBehaviour
     private GameObject bg1;
     [SerializeField]
     private GameObject bg2;
+    [SerializeField]
+    private GameObject shadowBg;
 
     public float moveSpeed;
 
@@ -18,6 +20,7 @@ public class BackgroundManager : MonoBehaviour
 
     public void Setup(Camera _cam)
     {
+        shadowBg.SetActive(false);
         startBg1Pos = bg1.transform.position;
         startBg2Pos = bg2.transform.position;
         bound = _cam.GetOrthographicBounds();
@@ -34,6 +37,7 @@ public class BackgroundManager : MonoBehaviour
         if (backgroundSetupRoutine != null)
             StopCoroutine(backgroundSetupRoutine);
 
+        shadowBg.SetActive(false);
         bg1.transform.position = startBg1Pos;
         bg2.transform.position = startBg2Pos;
     }
@@ -45,11 +49,13 @@ public class BackgroundManager : MonoBehaviour
 
     private IEnumerator BackgroundSetupCoroutine()
     {
-        while (bg1.transform.position.y > bound.center.y + bound.extents.y)
+        while (bg2.transform.position.y > 0)
         {
             bg1.transform.Translate(Vector3.down * moveSpeed);
             bg2.transform.Translate(Vector3.down * moveSpeed);
             yield return new WaitForFixedUpdate();
         }
+
+        shadowBg.SetActive(true);
     }
 }

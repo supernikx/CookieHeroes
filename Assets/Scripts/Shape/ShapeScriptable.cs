@@ -8,4 +8,5 @@ public class ShapeScriptable : ScriptableObject
     public Sprite guessShapeSprite;
     public Sprite shapeSprite;
     public Sprite uiShapeSprite;
+    public Sprite shadowSprite;
 }
