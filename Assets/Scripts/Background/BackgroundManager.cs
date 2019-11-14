@@ -11,8 +11,6 @@ public class BackgroundManager : MonoBehaviour
     [SerializeField]
     private BackgroundController bg2;
     [SerializeField]
-    private float moveSpeed;
-    [SerializeField]
     private float backgoundDislpace = 11.5f;
     [SerializeField]
     private float maxStartPosY;
@@ -56,7 +54,7 @@ public class BackgroundManager : MonoBehaviour
     {
         while (transform.position.y > maxStartPosY)
         {
-            transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, moveSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, DifficultyManager.GetMovementSpeed());
             yield return new WaitForFixedUpdate();
         }
 
@@ -72,11 +70,6 @@ public class BackgroundManager : MonoBehaviour
         BackgroundController other = (bg == bg1) ? bg2 : bg1;
         bg.transform.position = new Vector3(other.transform.position.x, other.transform.position.y + backgoundDislpace, other.transform.position.z);
         currentBG = other;
-    }
-
-    public float GetMovementSpeed()
-    {
-        return moveSpeed;
     }
 
     public bool GetCanMove()

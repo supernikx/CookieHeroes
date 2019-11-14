@@ -102,4 +102,9 @@ public class ShapeController : MonoBehaviour
         currentShapes = startShapes;
         shapeIndex = startShapeIndex;
     }
+
+    private void OnDisable()
+    {
+        gm.OnGameEnd -= HandleGameEnd;
+    }
 }

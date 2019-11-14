@@ -7,9 +7,6 @@ public class ShapeMatch : MonoBehaviour
 {
     public static Action<ShapeMatch> ShapeDestroied;
 
-    [SerializeField]
-    private float shapeSpeed;
-
     ShapeScriptable shape;
     SpriteMask spriteMask;
     SpriteRenderer spriteRenderer;
@@ -32,7 +29,7 @@ public class ShapeMatch : MonoBehaviour
         if (!isSetupped)
             return;
 
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, shapeSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, DifficultyManager.GetMovementSpeed());
         if (transform.position.y < bound.center.y - bound.extents.y - 1f)
             DestroyShape();
     }

@@ -539,7 +539,6 @@ MonoBehaviour:
   startBg: {fileID: 434003001}
   bg1: {fileID: 1460105818}
   bg2: {fileID: 2050983452}
-  moveSpeed: 0.05
   backgoundDislpace: 11.5
   maxStartPosY: -2.45
 --- !u!1 &319241268
@@ -1352,7 +1351,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDelayTime: 3
-  timeBetweenShapes: 2
   shapePrefab: {fileID: 8854078696492095894, guid: a9c228ffdc087724eb1641107e6d882a,
     type: 3}
   addNewShapeAfter: 3
@@ -1371,6 +1369,7 @@ MonoBehaviour:
   startShapes:
   - {fileID: 11400000, guid: a53409f17dc05234e97ea33eed19b0d3, type: 2}
   - {fileID: 11400000, guid: cff437ab0a43ee047914ab080b82617b, type: 2}
+  - {fileID: 11400000, guid: 762937252452b0443bd94dd2896be0be, type: 2}
   addShapes: []
   startShapeIndex: 0
 --- !u!1 &710035838
@@ -2983,6 +2982,7 @@ GameObject:
   - component: {fileID: 1855727367}
   - component: {fileID: 1855727368}
   - component: {fileID: 1855727365}
+  - component: {fileID: 1855727370}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3090,6 +3090,26 @@ MonoBehaviour:
   testMode: 1
   rewardedVideoPlacementID: rewardedVideo
   regularPlacementID: video
+--- !u!114 &1855727370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855727362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5915966a7f3db634e93d92dc98a5537f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startMovementSpeed: 0.05
+  increaseMovementSpeedValue: 0.001
+  increaseMovementSpeedTime: 10
+  maxMovementSpeedValue: 0.1
+  startSpawnRate: 2
+  spawnRateReduceValue: 0.1
+  spawnRateReduceTime: 15
+  minSpawnRateValue: 1
 --- !u!1 &1883714898
 GameObject:
   m_ObjectHideFlags: 0

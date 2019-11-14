@@ -10,6 +10,9 @@ public class GameSMEndGame : GameSMBaseState
     [SerializeField]
     private int retryForAds;
 
+    ShapeSpawnController spawnCtrl;
+    BackgroundManager bgMng;
+    PrintController printCtrl;
     UI_Manager uiMng;
     UIMenu_EndGame endGamePanel;
     int currentRetries = 0;
@@ -17,10 +20,25 @@ public class GameSMEndGame : GameSMBaseState
     public override void Enter()
     {
         uiMng = context.GetGameManager().GetUIManager();
+        spawnCtrl = context.GetGameManager().GetSpawnController();
+        printCtrl = context.GetGameManager().GetPrintController();
+        bgMng = context.GetGameManager().GetBackgroundManager();
+        endGamePanel = uiMng.GetMenu<UIMenu_EndGame>();
+
+        endGamePanel.RetyButtonPressed = RetryButtonPressed;
+
+        printCtrl.EndGameAnimation(OnPrinterAnimationEnd);
+    }
+
+    private void OnPrinterAnimationEnd()
+    {
+        if (bgMng != null)
+            bgMng.ResetBackground();
+
+        if (spawnCtrl != null)
+            spawnCtrl.StopSpawn();
 
         uiMng.SetCurrentMenu<UIMenu_EndGame>();
-        endGamePanel = uiMng.GetMenu<UIMenu_EndGame>();
-        endGamePanel.RetyButtonPressed = RetryButtonPressed;
     }
 
     private void RetryButtonPressed()

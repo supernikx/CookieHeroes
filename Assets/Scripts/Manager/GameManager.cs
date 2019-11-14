@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     Camera cam;
     BackgroundManager bgMng;
+    PrintController printController;
     GameSMController smCtrl;
     UI_Manager uiMng;
     ShapeController shapeCtrl;
@@ -32,8 +33,10 @@ public class GameManager : MonoBehaviour
         spawnCtrl = FindObjectOfType<ShapeSpawnController>();
         cam = FindObjectOfType<Camera>();
         bgMng = FindObjectOfType<BackgroundManager>();
+        printController = FindObjectOfType<PrintController>();
         scoreCtrl = GetComponent<ScoreController>();
 
+        printController.Setup();
         shapeCtrl.Setup(this);
         spawnCtrl.Setup(this);
         uiMng.Setup(this);
@@ -68,6 +71,11 @@ public class GameManager : MonoBehaviour
     public Camera GetCamera()
     {
         return cam;
+    }
+
+    public PrintController GetPrintController()
+    {
+        return printController;
     }
 
     public static void GameOver()

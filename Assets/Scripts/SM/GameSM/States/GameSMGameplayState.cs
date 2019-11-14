@@ -34,6 +34,7 @@ public class GameSMGameplayState : GameSMBaseState
         gameplayPanel = uiMng.GetMenu<UIMenu_Gameplay>();
         uiMng.SetCurrentMenu<UIMenu_Gameplay>();
 
+        DifficultyManager.StartGame();
         scoreCtrl.Init();
         bgMng.StartBackground();
         spawnCtrl.StartSpawn();
@@ -115,10 +116,7 @@ public class GameSMGameplayState : GameSMBaseState
         PrintController.OnShapeGuessed -= HandleOnShapeGuessed;
         PrintController.OnShapeWrong -= HandleOnShapeWrong;
 
-        if (bgMng != null)
-            bgMng.ResetBackground();
-
-        if (spawnCtrl != null)
-            spawnCtrl.StopSpawn();
+        readInput = false;
+        DifficultyManager.StopGame();
     }
 }

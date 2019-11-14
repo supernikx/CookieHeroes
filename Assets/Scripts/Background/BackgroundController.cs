@@ -30,7 +30,7 @@ public class BackgroundController : MonoBehaviour
         if (bgManager == null || !bgManager.GetCanMove())
             return;
 
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, bgManager.GetMovementSpeed());
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, DifficultyManager.GetMovementSpeed());
         if (CheckScreenPosition())
             bgManager.RespawnBG(this);
     }

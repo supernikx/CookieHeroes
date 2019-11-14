@@ -8,8 +8,6 @@ public class ShapeSpawnController : MonoBehaviour
     [SerializeField]
     private float startDelayTime;
     [SerializeField]
-    private float timeBetweenShapes;
-    [SerializeField]
     private ShapeMatch shapePrefab;
     [SerializeField]
     private int addNewShapeAfter;
@@ -62,7 +60,7 @@ public class ShapeSpawnController : MonoBehaviour
                 shapeSpawnedBeforeNewShape = 0;
             }
 
-            yield return new WaitForSeconds(timeBetweenShapes);
+            yield return new WaitForSeconds(DifficultyManager.GetCurrentSpawnRate());
         }
     }
 
