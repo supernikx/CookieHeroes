@@ -382,53 +382,6 @@ MonoBehaviour:
   videoRewardPanel: {fileID: 790702630}
   fillImage: {fileID: 1120566045}
   panelDuration: 5
---- !u!1 &85782852
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 85782853}
-  - component: {fileID: 85782854}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &85782853
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85782852}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 190728792}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &85782854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85782852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 444a6f45f40fd6248860d5bb47cd8258, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backgoundDislpace: 11.5
-  backgroundspeed: 0.1
-  bg1: {fileID: 1460105818}
-  bg2: {fileID: 2050983452}
 --- !u!1 &107535714
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,7 +486,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 476776816}
-  - {fileID: 85782853}
   - {fileID: 225163422}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -570,7 +522,7 @@ Transform:
   - {fileID: 1460105817}
   - {fileID: 2050983450}
   m_Father: {fileID: 190728792}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &225163423
 MonoBehaviour:
@@ -1399,6 +1351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dd4ac4a2e394e048b7b835caade49d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startDelayTime: 3
   timeBetweenShapes: 2
   shapePrefab: {fileID: 8854078696492095894, guid: a9c228ffdc087724eb1641107e6d882a,
     type: 3}
@@ -1747,7 +1700,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 87.55
+  m_fontSize: 85.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

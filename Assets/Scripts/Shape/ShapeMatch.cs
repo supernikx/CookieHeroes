@@ -34,7 +34,7 @@ public class ShapeMatch : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, shapeSpeed);
         if (transform.position.y < bound.center.y - bound.extents.y - 1f)
-            Destroy(gameObject);
+            DestroyShape();
     }
 
     public bool CheckShape(ShapeScriptable _shape)
@@ -51,7 +51,7 @@ public class ShapeMatch : MonoBehaviour
 
     public void DestroyShape()
     {
-        Destroy(gameObject);
         ShapeDestroied?.Invoke(this);
+        Destroy(gameObject);
     }
 }

@@ -24,25 +24,31 @@ public class UnityAdsManager : MonoBehaviour
 
     public void ShowRegularAD(Action<ShowResult> _callback)
     {
-        if (Advertisement.IsReady(regularPlacementID))
+        if (Application.internetReachability != NetworkReachability.NotReachable && Advertisement.IsReady(regularPlacementID))
         {
             ShowOptions so = new ShowOptions();
             so.resultCallback = _callback;
             Advertisement.Show(regularPlacementID, so);
         }
         else
+        {
+            _callback.Invoke(ShowResult.Skipped);
             Debug.Log("AD Not Ready");
+        }
     }
 
     public void ShowRewardedAD(Action<ShowResult> _callback)
     {
-        if (Advertisement.IsReady(rewardedVideoPlacementID))
+        if (Application.internetReachability != NetworkReachability.NotReachable && Advertisement.IsReady(rewardedVideoPlacementID))
         {
             ShowOptions so = new ShowOptions();
             so.resultCallback = _callback;
             Advertisement.Show(rewardedVideoPlacementID, so);
         }
         else
+        {
+            _callback.Invoke(ShowResult.Skipped);
             Debug.Log("AD Not Ready");
+        }
     }
 }

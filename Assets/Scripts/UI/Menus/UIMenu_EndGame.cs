@@ -34,7 +34,7 @@ public class UIMenu_EndGame : UIControllerBase
         {
             cookieCounterText.text = "X" + cookieCount;
             yield return null;
-            cookieCount++;
+            cookieCount+=5;
         }
         cookieCounterText.gameObject.transform.localScale = cookieCounterText.gameObject.transform.localScale / 1.2f;
         cookieCounterText.text = "X" + cookieCount;

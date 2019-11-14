@@ -6,6 +6,8 @@ using UnityEngine;
 public class ShapeSpawnController : MonoBehaviour
 {
     [SerializeField]
+    private float startDelayTime;
+    [SerializeField]
     private float timeBetweenShapes;
     [SerializeField]
     private ShapeMatch shapePrefab;
@@ -36,14 +38,15 @@ public class ShapeSpawnController : MonoBehaviour
 
     private IEnumerator SpawnShapeCoroutine()
     {
+        yield return new WaitForSeconds(startDelayTime);
+
         while (true)
         {
-            yield return new WaitForSeconds(timeBetweenShapes);
             ShapeScriptable shapeToSpawn = ShapeController.GetRandomShapeMatch();
 
             //Calculate Random Position
             float randomXValue = UnityEngine.Random.Range((bgBounds.center.x - bgBounds.extents.x) + 1f, (bgBounds.center.x + bgBounds.extents.x) - 1f);
-            Vector3 spawnVector = new Vector3(randomXValue , transform.position.y, transform.position.z);
+            Vector3 spawnVector = new Vector3(randomXValue, transform.position.y, transform.position.z);
 
             //Calculate Random Rotation
             float randomRoation = UnityEngine.Random.Range(-60f, 60f);
@@ -58,6 +61,8 @@ public class ShapeSpawnController : MonoBehaviour
                 ShapeController.AddNewShape();
                 shapeSpawnedBeforeNewShape = 0;
             }
+
+            yield return new WaitForSeconds(timeBetweenShapes);
         }
     }
 
@@ -75,6 +80,8 @@ public class ShapeSpawnController : MonoBehaviour
         {
             for (int i = spawnedShapes.Count - 1; i >= 0; i--)
                 spawnedShapes[i].DestroyShape();
+
+            spawnedShapes.Clear();
         }
 
         ShapeMatch.ShapeDestroied -= HandleShapeDestroyed;
