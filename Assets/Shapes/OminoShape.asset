@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6801e6eb79866af488bb53f577b3df5d, type: 3}
   m_Name: OminoShape
   m_EditorClassIdentifier: 
-  guessShapeSprite: {fileID: 21300000, guid: 47d15e37ff986e54bbd72f3ebea998d1, type: 3}
-  shapeSprite: {fileID: 21300000, guid: a41702b582546db4085a5ce4923c6727, type: 3}
+  guessShapeSprite: {fileID: 21300000, guid: e94516145d4753242a06a7271e92b857, type: 3}
+  shapeSprite: {fileID: 21300000, guid: e94516145d4753242a06a7271e92b857, type: 3}
   uiShapeSprite: {fileID: 21300000, guid: b968db293c73a2f43b61e83978bea6cc, type: 3}
   shadowSprite: {fileID: 21300000, guid: a41702b582546db4085a5ce4923c6727, type: 3}

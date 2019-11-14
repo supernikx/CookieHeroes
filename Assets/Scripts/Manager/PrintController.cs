@@ -26,7 +26,7 @@ public class PrintController : MonoBehaviour
     private IEnumerator EndGameAnimationCoroutine(Action _animationEndCallback)
     {
         readCollision = false;
-        yield return new WaitForSeconds(1f);
+        yield return null;
         readCollision = true;
         _animationEndCallback?.Invoke();
     }

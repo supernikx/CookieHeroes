@@ -95,7 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ea9f712bbc4f84685de865d416dba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shapeSpeed: 0.05
 --- !u!61 &5435048507695139855
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -161,7 +160,7 @@ SpriteMask:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
-  m_MaskAlphaCutoff: 0.2
+  m_MaskAlphaCutoff: 1
   m_FrontSortingLayerID: 0
   m_BackSortingLayerID: 0
   m_FrontSortingLayer: 0

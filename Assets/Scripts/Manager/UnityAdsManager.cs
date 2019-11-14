@@ -8,6 +8,8 @@ public class UnityAdsManager : MonoBehaviour
 
     [Header("ADS Settings")]
     [SerializeField]
+    private bool enableAds;
+    [SerializeField]
     private string gameID;
     [SerializeField]
     private bool testMode;
@@ -24,7 +26,7 @@ public class UnityAdsManager : MonoBehaviour
 
     public void ShowRegularAD(Action<ShowResult> _callback)
     {
-        if (Application.internetReachability != NetworkReachability.NotReachable && Advertisement.IsReady(regularPlacementID))
+        if (enableAds && Application.internetReachability != NetworkReachability.NotReachable && Advertisement.IsReady(regularPlacementID))
         {
             ShowOptions so = new ShowOptions();
             so.resultCallback = _callback;
@@ -39,7 +41,7 @@ public class UnityAdsManager : MonoBehaviour
 
     public void ShowRewardedAD(Action<ShowResult> _callback)
     {
-        if (Application.internetReachability != NetworkReachability.NotReachable && Advertisement.IsReady(rewardedVideoPlacementID))
+        if (enableAds && Application.internetReachability != NetworkReachability.NotReachable && Advertisement.IsReady(rewardedVideoPlacementID))
         {
             ShowOptions so = new ShowOptions();
             so.resultCallback = _callback;
