@@ -26,12 +26,12 @@ public class BackgroundManager : MonoBehaviour
     public void Setup(Camera _cam)
     {
         startPos = transform.position;
-        currentBG = bg1;
         cam = _cam;
     }
 
     public void StartBackground()
     {
+        currentBG = bg1;
         backgroundStartRoutine = BackgroundStartCoroutine();
         StartCoroutine(backgroundStartRoutine);
     }
