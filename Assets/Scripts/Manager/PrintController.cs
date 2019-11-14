@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class PrintController : MonoBehaviour
 {
     public static Action OnShapeGuessed;
     public static Action OnShapeWrong;
-    private Animator anim;
+    private PlayableDirector director;
 
     private bool readCollision;
 
     public void Setup()
     {
-        anim = GetComponent<Animator>();
+        director = GetComponent<PlayableDirector>();
         readCollision = true;
     }
 
@@ -38,7 +39,7 @@ public class PrintController : MonoBehaviour
 
         if (shape != null)
         {
-            anim.SetTrigger("Print");
+            director.Play();
 
             if (shape.CheckShape(ShapeController.GetCurrentShape()))
             {

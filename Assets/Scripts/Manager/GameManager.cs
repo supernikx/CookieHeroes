@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     ShapeController shapeCtrl;
     ShapeSpawnController spawnCtrl;
     ScoreController scoreCtrl;
+    SoundManager soundMng;
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
         bgMng = FindObjectOfType<BackgroundManager>();
         printController = FindObjectOfType<PrintController>();
         scoreCtrl = GetComponent<ScoreController>();
+        soundMng = FindObjectOfType<SoundManager>();
 
         printController.Setup();
         shapeCtrl.Setup(this);
@@ -76,6 +78,11 @@ public class GameManager : MonoBehaviour
     public PrintController GetPrintController()
     {
         return printController;
+    }
+
+    public SoundManager GetSoundManager()
+    {
+        return soundMng;
     }
 
     public static void GameOver()

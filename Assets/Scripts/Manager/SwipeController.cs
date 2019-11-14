@@ -6,10 +6,17 @@ public class SwipeController : MonoBehaviour
 {
     private static SwipeController i;
 
+    [Header("General Settings")]
     [SerializeField]
     float swipeResistanceX = 50;
     [SerializeField]
     float swipeResistanceY = 100;
+
+    [Header("Feedback Settings")]
+    [SerializeField]
+    private GenericSoundController leftSwipSoundCtrl;
+    [SerializeField]
+    private GenericSoundController rightSwipeSoundCtrl;
 
     Direction direction;
     Vector2 touchPosition;
@@ -35,6 +42,16 @@ public class SwipeController : MonoBehaviour
         if (i.direction == _direction)
             return true;
         else return false;
+    }
+
+    public static void LeftSwipe()
+    {
+        i.leftSwipSoundCtrl.PlayClip();
+    }
+
+    public static void RightSwipe()
+    {
+        i.rightSwipeSoundCtrl.PlayClip();
     }
 
     private void MouseInput()

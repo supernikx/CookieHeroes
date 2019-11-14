@@ -50,10 +50,12 @@ public class GameSMGameplayState : GameSMBaseState
     {
         if (readInput && SwipeController.IsSwiping(Direction.Right))
         {
+            SwipeController.RightSwipe();
             shapeCtrl.ChangeShape(ShapeController.GetCurrentShapeIndex() - 1);
         }
         else if (readInput && SwipeController.IsSwiping(Direction.Left))
         {
+            SwipeController.LeftSwipe();
             shapeCtrl.ChangeShape(ShapeController.GetCurrentShapeIndex() + 1);
         }
     }
