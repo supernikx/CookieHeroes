@@ -10,6 +10,7 @@ public class PrintController : MonoBehaviour
     private PlayableDirector director;
 
     private bool readCollision;
+    private Collider2D oldCollision;
 
     public void Setup()
     {
@@ -32,7 +33,7 @@ public class PrintController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!readCollision)
+        if (!readCollision || (oldCollision != null && oldCollision == collision))
             return;
 
         ShapeMatch shape = collision.GetComponent<ShapeMatch>();
@@ -49,6 +50,8 @@ public class PrintController : MonoBehaviour
 
             OnShapeWrong?.Invoke();
         }
+
+        oldCollision = collision;
     }
 
     private void OnApplicationQuit()

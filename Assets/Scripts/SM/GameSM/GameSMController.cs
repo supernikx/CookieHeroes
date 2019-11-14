@@ -76,7 +76,7 @@ public class GameSMController : StateMachineBase
                 GoToState("EndGame");
                 break;
             case "EndGame":
-                GoToState("Gameplay");
+                GoToState("MainMenu");
                 break;
         }
     }
