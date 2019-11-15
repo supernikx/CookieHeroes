@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class ScoreController : MonoBehaviour
@@ -16,7 +15,19 @@ public class ScoreController : MonoBehaviour
 
     public void AddScore()
     {
-        currentScore+=100;
+        currentScore += 100;
+    }
+
+    public bool CheckHighScore()
+    {
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        if (currentScore > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", currentScore);
+            return true;
+        }
+
+        return false;
     }
 
     public int GetCurrentScore()

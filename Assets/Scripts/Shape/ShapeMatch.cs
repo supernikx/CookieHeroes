@@ -3,8 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShapeMatch : MonoBehaviour
+public class ShapeMatch : MonoBehaviour, IPoolObject
 {
+    #region Pool
+    public event PoolManagerEvets.Events OnObjectSpawn;
+    public event PoolManagerEvets.Events OnObjectDestroy;
+
+    private GameObject ownerObject;
+    public GameObject OwnerObject
+    {
+        get
+        {
+            return ownerObject;
+        }
+        set
+        {
+            ownerObject = value;
+        }
+    }
+
+    private State currentState;
+    public State CurrentState 
+    {
+        get
+        {
+            return currentState;
+        }
+        set
+        {
+            currentState = value;
+        }
+    }
+    #endregion
+
     public static Action<ShapeMatch> ShapeDestroied;
 
     ShapeScriptable shape;
@@ -21,6 +52,7 @@ public class ShapeMatch : MonoBehaviour
         spriteRenderer.sprite = shape.guessShapeSprite;
         bound = _cam.GetOrthographicBounds();
 
+        OnObjectSpawn?.Invoke(this);
         isSetupped = true;
     }
 
@@ -49,6 +81,9 @@ public class ShapeMatch : MonoBehaviour
     public void DestroyShape()
     {
         ShapeDestroied?.Invoke(this);
-        Destroy(gameObject);
+        OnObjectDestroy?.Invoke(this);
+
+        spriteMask.sprite = null;
+        isSetupped = false;
     }
 }

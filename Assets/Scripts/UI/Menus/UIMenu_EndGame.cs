@@ -10,6 +10,16 @@ public class UIMenu_EndGame : UIControllerBase
 
     [SerializeField]
     private TextMeshProUGUI cookieCounterText;
+    [SerializeField]
+    private GameObject highScoreText;
+
+    private ScoreController scoreCtrl;
+    private IEnumerator counterRoutine;
+
+    public override void CustomSetup()
+    {
+        scoreCtrl = manager.GetGameManager().GetScoreController();
+    }
 
     public override void ToggleMenu(bool _value)
     {
@@ -17,7 +27,14 @@ public class UIMenu_EndGame : UIControllerBase
 
         if (isActive)
         {
-            StartCoroutine(CounterCoroutine(manager.GetGameManager().GetScoreController().GetCurrentScore()));
+            highScoreText.SetActive(false);
+            counterRoutine = CounterCoroutine(scoreCtrl.GetCurrentScore());
+            StartCoroutine(counterRoutine);
+        }
+        else
+        {
+            if (counterRoutine != null)
+                StopCoroutine(counterRoutine);
         }
     }
 
@@ -29,14 +46,19 @@ public class UIMenu_EndGame : UIControllerBase
     private IEnumerator CounterCoroutine(int _cookieCount)
     {
         int cookieCount = 0;
+        bool highScore = scoreCtrl.CheckHighScore();
+
         cookieCounterText.gameObject.transform.localScale = cookieCounterText.gameObject.transform.localScale * 1.2f;
         while (cookieCount < _cookieCount)
         {
             cookieCounterText.text = "X" + cookieCount;
             yield return null;
-            cookieCount+=5;
+            cookieCount += 25;
         }
+
         cookieCounterText.gameObject.transform.localScale = cookieCounterText.gameObject.transform.localScale / 1.2f;
         cookieCounterText.text = "X" + cookieCount;
+
+        highScoreText.SetActive(highScore);
     }
 }

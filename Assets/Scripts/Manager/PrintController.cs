@@ -20,6 +20,7 @@ public class PrintController : MonoBehaviour
 
     public void EndGameAnimation(Action _animationEndCallback)
     {
+        oldCollision = null;
         StartCoroutine(EndGameAnimationCoroutine(_animationEndCallback));
     }
 
@@ -37,6 +38,7 @@ public class PrintController : MonoBehaviour
             return;
 
         ShapeMatch shape = collision.GetComponent<ShapeMatch>();
+        oldCollision = collision;
 
         if (shape != null)
         {
@@ -50,8 +52,6 @@ public class PrintController : MonoBehaviour
 
             OnShapeWrong?.Invoke();
         }
-
-        oldCollision = collision;
     }
 
     private void OnApplicationQuit()

@@ -8,8 +8,6 @@ public class ShapeSpawnController : MonoBehaviour
     [SerializeField]
     private float startDelayTime;
     [SerializeField]
-    private ShapeMatch shapePrefab;
-    [SerializeField]
     private int addNewShapeAfter;
 
     private Camera cam;
@@ -50,14 +48,18 @@ public class ShapeSpawnController : MonoBehaviour
             float randomRoation = UnityEngine.Random.Range(-60f, 60f);
             Quaternion spawnRotation = Quaternion.Euler(0, 0, randomRoation);
 
-            ShapeMatch newShape = Instantiate(shapePrefab, spawnVector, spawnRotation, transform);
-            newShape.Setup(shapeToSpawn, cam);
-            spawnedShapes.Add(newShape);
-            shapeSpawnedBeforeNewShape++;
-            if (shapeSpawnedBeforeNewShape == addNewShapeAfter)
+            ShapeMatch newShape = PoolManager.instance.GetPooledObject(ObjectTypes.Shape, gameObject).GetComponent<ShapeMatch>();
+            if (newShape != null)
             {
-                ShapeController.AddNewShape();
-                shapeSpawnedBeforeNewShape = 0;
+                newShape.transform.SetPositionAndRotation(spawnVector, spawnRotation);
+                newShape.Setup(shapeToSpawn, cam);
+                spawnedShapes.Add(newShape);
+                shapeSpawnedBeforeNewShape++;
+                if (shapeSpawnedBeforeNewShape == addNewShapeAfter)
+                {
+                    ShapeController.AddNewShape();
+                    shapeSpawnedBeforeNewShape = 0;
+                }
             }
 
             yield return new WaitForSeconds(DifficultyManager.GetCurrentSpawnRate());
