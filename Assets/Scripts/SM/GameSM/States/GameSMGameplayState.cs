@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameSMGameplayState : GameSMBaseState
 {
     ScoreController scoreCtrl;
+    UnityAdsManager adsMng;
     ShapeController shapeCtrl;
     BackgroundManager bgMng;
     ShapeSpawnController spawnCtrl;
@@ -19,6 +20,7 @@ public class GameSMGameplayState : GameSMBaseState
 
     public override void Enter()
     {
+        adsMng = UnityAdsManager.instance;
         spawnCtrl = context.GetGameManager().GetSpawnController();
         uiMng = context.GetGameManager().GetUIManager();
         shapeCtrl = context.GetGameManager().GetShapeController();
@@ -81,7 +83,7 @@ public class GameSMGameplayState : GameSMBaseState
 
     private void HandleOnShapeWrong()
     {
-        if (videoAlreadyWhatched)
+        if (videoAlreadyWhatched || !adsMng.CheckCanShowAD())
             GameManager.GameOver();
         else
         {

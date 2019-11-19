@@ -4,46 +4,31 @@ using UnityEngine;
 
 public class BackgroundController : MonoBehaviour
 {
-    Vector3 startPos;
-    float screenHeight;
-    Bounds bound;
     BackgroundManager bgManager;
-    Camera cam;
+    SpriteRenderer sr;
+    float currentOffset;
 
-    private void Start()
-    {
-        startPos = transform.position;
-    }
-
-    public void Setup(BackgroundManager _bgMng, Camera _cam)
+    public void Setup(BackgroundManager _bgMng)
     {
         bgManager = _bgMng;
-        cam = _cam;
-        bound = GetComponent<SpriteRenderer>().bounds;
-
-        screenHeight = cam.orthographicSize - cam.transform.position.y;
+        currentOffset = 0;
+        sr = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (bgManager == null || !bgManager.GetCanMove())
             return;
 
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.down, DifficultyManager.GetMovementSpeed());
-        if (CheckScreenPosition())
-            bgManager.RespawnBG(this);
-    }
-
-    private bool CheckScreenPosition()
-    {
-        if (bound.extents.y + transform.position.y < -screenHeight)
-            return true;
-        return false;
+        sr.material.mainTextureOffset = new Vector2(0, currentOffset);
+        currentOffset += (DifficultyManager.GetMovementSpeed() / 6);
     }
 
     public void ResetBG()
     {
-        transform.position = startPos;
+        currentOffset = 0;
+
+        if (sr != null)
+            sr.material.mainTextureOffset = new Vector2(0, 0);
     }
 }

@@ -7,20 +7,25 @@ public class PrintController : MonoBehaviour
 {
     public static Action OnShapeGuessed;
     public static Action OnShapeWrong;
-    private PlayableDirector director;
 
+    private Animator anim;
+    private GenericSoundController soundCtrl;
     private bool readCollision;
-    private Collider2D oldCollision;
 
     public void Setup()
     {
-        director = GetComponent<PlayableDirector>();
+        anim = GetComponent<Animator>();
+        soundCtrl = GetComponent<GenericSoundController>();
         readCollision = true;
+    }
+
+    public void PlaySFX()
+    {
+        soundCtrl.PlayClip();
     }
 
     public void EndGameAnimation(Action _animationEndCallback)
     {
-        oldCollision = null;
         StartCoroutine(EndGameAnimationCoroutine(_animationEndCallback));
     }
 
@@ -34,15 +39,14 @@ public class PrintController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!readCollision || (oldCollision != null && oldCollision == collision))
+        if (!readCollision)
             return;
 
         ShapeMatch shape = collision.GetComponent<ShapeMatch>();
-        oldCollision = collision;
 
         if (shape != null)
         {
-            director.Play();
+            anim.SetTrigger("Print");
 
             if (shape.CheckShape(ShapeController.GetCurrentShape()))
             {

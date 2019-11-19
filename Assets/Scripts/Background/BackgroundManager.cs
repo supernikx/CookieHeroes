@@ -7,29 +7,21 @@ public class BackgroundManager : MonoBehaviour
     [SerializeField]
     private GameObject startBg;
     [SerializeField]
-    private BackgroundController bg1;
-    [SerializeField]
-    private BackgroundController bg2;
-    [SerializeField]
-    private float backgoundDislpace = 11.5f;
+    private BackgroundController seamlessBg;
     [SerializeField]
     private float maxStartPosY;
 
     private bool canMove = false;
-    private Camera cam;
     private Vector3 startPos;
-    private BackgroundController currentBG;
     private IEnumerator backgroundStartRoutine;
 
-    public void Setup(Camera _cam)
+    public void Setup()
     {
         startPos = transform.position;
-        cam = _cam;
     }
 
     public void StartBackground()
     {
-        currentBG = bg1;
         backgroundStartRoutine = BackgroundStartCoroutine();
         StartCoroutine(backgroundStartRoutine);
     }
@@ -41,13 +33,12 @@ public class BackgroundManager : MonoBehaviour
             StopCoroutine(backgroundStartRoutine);
 
         transform.position = startPos;
-        bg1.ResetBG();
-        bg2.ResetBG();
+        seamlessBg.ResetBG();
     }
 
     public Bounds GetBackgroundBounds()
     {
-        return bg1.GetComponent<SpriteRenderer>().bounds;
+        return seamlessBg.GetComponent<SpriteRenderer>().bounds;
     }
 
     private IEnumerator BackgroundStartCoroutine()
@@ -58,18 +49,8 @@ public class BackgroundManager : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        bg1.Setup(this, cam);
-        bg2.Setup(this, cam);
+        seamlessBg.Setup(this);
         canMove = true;
-    }
-
-    public void RespawnBG(BackgroundController bg)
-    {
-        if (bg != currentBG)
-            return;
-        BackgroundController other = (bg == bg1) ? bg2 : bg1;
-        bg.transform.position = new Vector3(other.transform.position.x, other.transform.position.y + backgoundDislpace, other.transform.position.z);
-        currentBG = other;
     }
 
     public bool GetCanMove()
