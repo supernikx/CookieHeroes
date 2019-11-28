@@ -85,7 +85,7 @@ public class SwipeController : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary)
+            if (touch.phase == TouchPhase.Began)
             {
                 touchPosition = touch.position;
             }

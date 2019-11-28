@@ -81,7 +81,7 @@ public class GameSMGameplayState : GameSMBaseState
 
     private void HandleOnNewShapeAdd(ShapeScriptable _newShape)
     {
-        shapeCtrl.ChangeShape(Direction.None, false);
+        shapeCtrl.ChangeShape(_newShape);
     }
 
     private void HandleOnShapeGuessed()

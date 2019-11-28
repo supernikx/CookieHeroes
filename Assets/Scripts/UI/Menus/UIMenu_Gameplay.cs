@@ -111,6 +111,11 @@ public class UIMenu_Gameplay : UIControllerBase
         }
         else
         {
+            if (changeShapeRoutine != null)
+                StopCoroutine(changeShapeRoutine);
+
+            ResetUIPos();
+
             rightShape.sprite = _nextShape.uiShapeSprite;
             centerShape.sprite = _currentShape.uiShapeSprite;
             leftShape.sprite = _previousShape.uiShapeSprite;

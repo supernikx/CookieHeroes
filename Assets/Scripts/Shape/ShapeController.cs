@@ -62,6 +62,12 @@ public class ShapeController : MonoBehaviour
         OnShapeChanged?.Invoke(_swipeDir, newShape, _animation);
     }
 
+    public void ChangeShape(ShapeScriptable _shape)
+    {
+        shapeIndex = GetIndexByShape(_shape);
+        OnShapeChanged?.Invoke(Direction.None, _shape, false);
+    }
+
     public static int GetCurrentShapeIndex()
     {
         return i.shapeIndex;

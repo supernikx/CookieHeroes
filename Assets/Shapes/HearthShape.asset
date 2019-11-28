@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guessShapeSprite: {fileID: 21300000, guid: 116b749f182513647b5dfeda54688117, type: 3}
   shapeSprite: {fileID: 21300000, guid: 116b749f182513647b5dfeda54688117, type: 3}
-  uiShapeSprite: {fileID: 21300000, guid: 2688eb4fc663a4c4cb29fa90b14b4f3e, type: 3}
+  uiShapeSprite: {fileID: 21300000, guid: d6e5786c012002e44a08bcd149fbc2d9, type: 3}
   shadowSprite: {fileID: 21300000, guid: 2688eb4fc663a4c4cb29fa90b14b4f3e, type: 3}
