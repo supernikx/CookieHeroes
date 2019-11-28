@@ -8,9 +8,13 @@ public class SwipeController : MonoBehaviour
 
     [Header("General Settings")]
     [SerializeField]
-    float swipeResistanceX = 50;
+    float desktopSwipeResistanceX = 50;
     [SerializeField]
-    float swipeResistanceY = 100;
+    float handledSwipeResistanceX = 200;
+    [SerializeField]
+    float desktopSwipeResistanceY = 100;
+    [SerializeField]
+    float handledSwipeResistanceY = 100;
 
     [Header("Feedback Settings")]
     [SerializeField]
@@ -64,13 +68,13 @@ public class SwipeController : MonoBehaviour
         {
             Vector2 deltaSwipe = touchPosition - (Vector2)Input.mousePosition;
 
-            if (Mathf.Abs(deltaSwipe.x) > swipeResistanceX)
+            if (Mathf.Abs(deltaSwipe.x) > desktopSwipeResistanceX)
             {
-                direction |= (deltaSwipe.x < 0) ? Direction.Right : Direction.Left;
+                direction = (deltaSwipe.x < 0) ? Direction.Right : Direction.Left;
             }
-            if (Mathf.Abs(deltaSwipe.y) > swipeResistanceY)
+            if (Mathf.Abs(deltaSwipe.y) > desktopSwipeResistanceY)
             {
-                direction |= (deltaSwipe.y < 0) ? Direction.Up : Direction.Down;
+                direction = (deltaSwipe.y < 0) ? Direction.Up : Direction.Down;
             }
         }
     }
@@ -81,7 +85,7 @@ public class SwipeController : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary)
             {
                 touchPosition = touch.position;
             }
@@ -89,13 +93,13 @@ public class SwipeController : MonoBehaviour
             {
                 Vector2 deltaSwipe = touchPosition - touch.position;
 
-                if (Mathf.Abs(deltaSwipe.x) > swipeResistanceX)
+                if (Mathf.Abs(deltaSwipe.x) > handledSwipeResistanceX)
                 {
-                    direction |= (deltaSwipe.x < 0) ? Direction.Right : Direction.Left;
+                    direction = (deltaSwipe.x < 0) ? Direction.Right : Direction.Left;
                 }
-                if (Mathf.Abs(deltaSwipe.y) > swipeResistanceY)
+                if (Mathf.Abs(deltaSwipe.y) > handledSwipeResistanceY)
                 {
-                    direction |= (deltaSwipe.y < 0) ? Direction.Up : Direction.Down;
+                    direction = (deltaSwipe.y < 0) ? Direction.Up : Direction.Down;
                 }
             }
         }

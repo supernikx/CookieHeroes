@@ -8,7 +8,7 @@ public class ShapeController : MonoBehaviour
     private static ShapeController i;
 
     #region Action
-    public static Action<ShapeScriptable> OnShapeChanged;
+    public static Action<Direction, ShapeScriptable, bool> OnShapeChanged;
     public static Action<ShapeScriptable> OnNewShapeAdd;
     #endregion
 
@@ -29,8 +29,8 @@ public class ShapeController : MonoBehaviour
         i = this;
         gm = _gm;
 
-        shapesToAdd = addShapes;
-        currentShapes = startShapes;
+        shapesToAdd = new List<ShapeScriptable>(addShapes);
+        currentShapes = new List<ShapeScriptable>(startShapes);
 
         gm.OnGameEnd += HandleGameEnd;
     }
@@ -46,11 +46,20 @@ public class ShapeController : MonoBehaviour
         return i.currentShapes[_shapeIndex];
     }
 
-    public void ChangeShape(int _shapeIndex)
+    public void ChangeShape(Direction _swipeDir, bool _animation)
     {
-        shapeIndex = ShapeController.FixShapeIndex(_shapeIndex);
-        ShapeScriptable newShape = ShapeController.GetShapeByIndex(shapeIndex);
-        OnShapeChanged?.Invoke(newShape);
+        switch (_swipeDir)
+        {
+            case Direction.Right:
+                shapeIndex = FixShapeIndex(GetCurrentShapeIndex() - 1);
+                break;
+            case Direction.Left:
+                shapeIndex = FixShapeIndex(GetCurrentShapeIndex() + 1);
+                break;
+        }
+
+        ShapeScriptable newShape = GetShapeByIndex(shapeIndex);
+        OnShapeChanged?.Invoke(_swipeDir, newShape, _animation);
     }
 
     public static int GetCurrentShapeIndex()
@@ -98,8 +107,8 @@ public class ShapeController : MonoBehaviour
 
     private void HandleGameEnd()
     {
-        shapesToAdd = addShapes;
-        currentShapes = startShapes;
+        shapesToAdd = new List<ShapeScriptable>(addShapes);
+        currentShapes = new List<ShapeScriptable>(startShapes);
         shapeIndex = startShapeIndex;
     }
 

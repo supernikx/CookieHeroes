@@ -14,6 +14,7 @@ public class ShapeSpawnController : MonoBehaviour
     private Bounds bgBounds;
     private int shapeSpawnedBeforeNewShape;
     private List<ShapeMatch> spawnedShapes;
+    private ShapeScriptable nextShape;
     private IEnumerator spawnWaveRoutine;
 
     public void Setup(GameManager _gm)
@@ -24,11 +25,13 @@ public class ShapeSpawnController : MonoBehaviour
 
     public void StartSpawn()
     {
+        ShapeController.OnNewShapeAdd += HandleOnNewShapeAdd;
         ShapeMatch.ShapeDestroied += HandleShapeDestroyed;
 
         spawnedShapes = new List<ShapeMatch>();
         spawnWaveRoutine = SpawnShapeCoroutine();
         shapeSpawnedBeforeNewShape = 0;
+        nextShape = null;
         StartCoroutine(spawnWaveRoutine);
     }
 
@@ -38,7 +41,23 @@ public class ShapeSpawnController : MonoBehaviour
 
         while (true)
         {
-            ShapeScriptable shapeToSpawn = ShapeController.GetRandomShapeMatch();
+            shapeSpawnedBeforeNewShape++;
+            if (shapeSpawnedBeforeNewShape == addNewShapeAfter)
+            {
+                ShapeController.AddNewShape();
+                shapeSpawnedBeforeNewShape = 0;
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            ShapeScriptable shapeToSpawn;
+            if (nextShape != null)
+            {
+                shapeToSpawn = nextShape;
+                nextShape = null;
+            }
+            else
+                shapeToSpawn = ShapeController.GetRandomShapeMatch();
+
 
             //Calculate Random Position
             float randomXValue = UnityEngine.Random.Range((bgBounds.center.x - bgBounds.extents.x) + 1f, (bgBounds.center.x + bgBounds.extents.x) - 1f);
@@ -54,16 +73,16 @@ public class ShapeSpawnController : MonoBehaviour
                 newShape.transform.SetPositionAndRotation(spawnVector, spawnRotation);
                 newShape.Setup(shapeToSpawn, cam);
                 spawnedShapes.Add(newShape);
-                shapeSpawnedBeforeNewShape++;
-                if (shapeSpawnedBeforeNewShape == addNewShapeAfter)
-                {
-                    ShapeController.AddNewShape();
-                    shapeSpawnedBeforeNewShape = 0;
-                }
             }
 
             yield return new WaitForSeconds(DifficultyManager.GetCurrentSpawnRate());
         }
+    }
+
+    private void HandleOnNewShapeAdd(ShapeScriptable _newShape)
+    {
+        DestroyShapes();
+        nextShape = _newShape;
     }
 
     private void HandleShapeDestroyed(ShapeMatch _shapeDestroied)
@@ -76,6 +95,15 @@ public class ShapeSpawnController : MonoBehaviour
         if (spawnWaveRoutine != null)
             StopCoroutine(spawnWaveRoutine);
 
+        DestroyShapes();
+        nextShape = null;
+
+        ShapeController.OnNewShapeAdd -= HandleOnNewShapeAdd;
+        ShapeMatch.ShapeDestroied -= HandleShapeDestroyed;
+    }
+
+    private void DestroyShapes()
+    {
         if (spawnedShapes != null && spawnedShapes.Count > 0)
         {
             for (int i = spawnedShapes.Count - 1; i >= 0; i--)
@@ -83,7 +111,5 @@ public class ShapeSpawnController : MonoBehaviour
 
             spawnedShapes.Clear();
         }
-
-        ShapeMatch.ShapeDestroied -= HandleShapeDestroyed;
     }
 }

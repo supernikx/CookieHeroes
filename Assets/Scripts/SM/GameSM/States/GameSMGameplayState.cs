@@ -15,6 +15,8 @@ public class GameSMGameplayState : GameSMBaseState
     UI_Manager uiMng;
     UIMenu_Gameplay gameplayPanel;
 
+    float changeShapeDelayTime = 0.1f;
+    float changeShapeDelayTimer;
     bool readInput;
     bool videoAlreadyWhatched;
 
@@ -42,7 +44,7 @@ public class GameSMGameplayState : GameSMBaseState
         spawnCtrl.StartSpawn();
 
         gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());
-        HandleOnShapeChange(ShapeController.GetCurrentShape());
+        HandleOnShapeChange(Direction.None, ShapeController.GetCurrentShape(), false);
 
         videoAlreadyWhatched = false;
         readInput = true;
@@ -50,28 +52,36 @@ public class GameSMGameplayState : GameSMBaseState
 
     public override void Tick()
     {
+        if (changeShapeDelayTimer > 0)
+        {
+            changeShapeDelayTimer -= Time.deltaTime;
+            return;
+        }
+
         if (readInput && SwipeController.IsSwiping(Direction.Right))
         {
             SwipeController.RightSwipe();
-            shapeCtrl.ChangeShape(ShapeController.GetCurrentShapeIndex() - 1);
+            shapeCtrl.ChangeShape(Direction.Right, true);
+            changeShapeDelayTimer = changeShapeDelayTime;
         }
         else if (readInput && SwipeController.IsSwiping(Direction.Left))
         {
             SwipeController.LeftSwipe();
-            shapeCtrl.ChangeShape(ShapeController.GetCurrentShapeIndex() + 1);
+            shapeCtrl.ChangeShape(Direction.Left, true);
+            changeShapeDelayTimer = changeShapeDelayTime;
         }
     }
 
     #region Handlers
-    private void HandleOnShapeChange(ShapeScriptable _newShape)
+    private void HandleOnShapeChange(Direction _swipeDir, ShapeScriptable _newShape, bool _animation)
     {
         int currentShapeIndex = ShapeController.GetCurrentShapeIndex();
-        gameplayPanel.UpdateShape(_newShape, ShapeController.GetShapeByIndex(currentShapeIndex - 1), ShapeController.GetShapeByIndex(currentShapeIndex + 1));
+        gameplayPanel.UpdateShape(_swipeDir, _newShape, ShapeController.GetShapeByIndex(currentShapeIndex - 1), ShapeController.GetShapeByIndex(currentShapeIndex + 1), _animation, changeShapeDelayTime);
     }
 
     private void HandleOnNewShapeAdd(ShapeScriptable _newShape)
     {
-        shapeCtrl.ChangeShape(ShapeController.GetIndexByShape(_newShape));
+        shapeCtrl.ChangeShape(Direction.None, false);
     }
 
     private void HandleOnShapeGuessed()

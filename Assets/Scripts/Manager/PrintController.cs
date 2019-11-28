@@ -19,9 +19,10 @@ public class PrintController : MonoBehaviour
         readCollision = true;
     }
 
-    public void PlaySFX()
+    public void PlayFeedback()
     {
         soundCtrl.PlayClip();
+        Vibration.Vibrate((long)2f);
     }
 
     public void EndGameAnimation(Action _animationEndCallback)
@@ -54,6 +55,7 @@ public class PrintController : MonoBehaviour
                 return;
             }
 
+            Vibration.Vibrate((long)5f);
             OnShapeWrong?.Invoke();
         }
     }
