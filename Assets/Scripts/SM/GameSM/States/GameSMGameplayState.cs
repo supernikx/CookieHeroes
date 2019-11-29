@@ -18,6 +18,7 @@ public class GameSMGameplayState : GameSMBaseState
     float changeShapeDelayTime = 0.1f;
     float changeShapeDelayTimer;
     bool readInput;
+    bool isTutorial;
     bool videoAlreadyWhatched;
 
     public override void Enter()
@@ -38,16 +39,26 @@ public class GameSMGameplayState : GameSMBaseState
         gameplayPanel = uiMng.GetMenu<UIMenu_Gameplay>();
         uiMng.SetCurrentMenu<UIMenu_Gameplay>();
 
-        DifficultyManager.StartGame();
         scoreCtrl.Init();
         bgMng.StartBackground();
-        spawnCtrl.StartSpawn();
-
         gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());
         HandleOnShapeChange(Direction.None, ShapeController.GetCurrentShape(), false);
-
         videoAlreadyWhatched = false;
-        readInput = true;
+
+        int firstGame = PlayerPrefs.GetInt("Tutorial", 0);
+        if (firstGame == 0)
+        {
+            readInput = false;
+            isTutorial = false;
+            CoroutineController.StartRoutine(StartTutotrial, 3f);
+        }
+        else
+        {
+            DifficultyManager.StartGame();
+            spawnCtrl.StartSpawn();
+            readInput = true;
+            isTutorial = false;
+        }
     }
 
     public override void Tick()
@@ -58,11 +69,14 @@ public class GameSMGameplayState : GameSMBaseState
             return;
         }
 
-        if (readInput && SwipeController.IsSwiping(Direction.Right))
+        if ((readInput || isTutorial) && SwipeController.IsSwiping(Direction.Right))
         {
             SwipeController.RightSwipe();
             shapeCtrl.ChangeShape(Direction.Right, true);
             changeShapeDelayTimer = changeShapeDelayTime;
+
+            if (isTutorial)
+                EndTutorial();
         }
         else if (readInput && SwipeController.IsSwiping(Direction.Left))
         {
@@ -71,6 +85,34 @@ public class GameSMGameplayState : GameSMBaseState
             changeShapeDelayTimer = changeShapeDelayTime;
         }
     }
+
+    #region Tutorial
+    private void StartTutotrial()
+    {
+        spawnCtrl.SpawnShape(ShapeController.GetShapeByIndex(ShapeController.GetCurrentShapeIndex() - 1));
+        CoroutineController.StartRoutine(Tutorial, 1.5f);
+    }
+
+    private void Tutorial()
+    {
+        Time.timeScale = 0f;
+        gameplayPanel.EnableTutorialPanel(true);
+        isTutorial = true;
+    }
+
+    private void EndTutorial()
+    {
+        Time.timeScale = 1f;
+        isTutorial = false;
+        readInput = true;
+
+        gameplayPanel.EnableTutorialPanel(false);
+        PlayerPrefs.SetInt("Tutorial", 1);
+
+        DifficultyManager.StartGame();
+        spawnCtrl.StartSpawn();
+    }
+    #endregion
 
     #region Handlers
     private void HandleOnShapeChange(Direction _swipeDir, ShapeScriptable _newShape, bool _animation)

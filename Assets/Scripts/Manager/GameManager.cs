@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         shapeCtrl.Setup(this);
         spawnCtrl.Setup(this);
         uiMng.Setup(this);
-        bgMng.Setup();
+        bgMng.Setup();        
     }
 
     public BackgroundManager GetBackgroundManager()

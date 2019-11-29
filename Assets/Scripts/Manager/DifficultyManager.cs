@@ -37,6 +37,8 @@ public class DifficultyManager : MonoBehaviour
     private void Awake()
     {
         i = this;
+        i.currentMovementSpeed = i.startMovementSpeed;
+        i.currentSpawnRate = i.startSpawnRate;
     }
 
     public static void StartGame()

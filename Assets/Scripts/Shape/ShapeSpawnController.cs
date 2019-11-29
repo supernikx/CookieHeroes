@@ -21,6 +21,7 @@ public class ShapeSpawnController : MonoBehaviour
     {
         cam = _gm.GetCamera();
         bgBounds = _gm.GetBackgroundManager().GetBackgroundBounds();
+        spawnedShapes = new List<ShapeMatch>();
     }
 
     public void StartSpawn()
@@ -29,10 +30,31 @@ public class ShapeSpawnController : MonoBehaviour
         ShapeMatch.ShapeDestroied += HandleShapeDestroyed;
 
         spawnedShapes = new List<ShapeMatch>();
-        spawnWaveRoutine = SpawnShapeCoroutine();
         shapeSpawnedBeforeNewShape = 0;
         nextShape = null;
+
+        spawnWaveRoutine = SpawnShapeCoroutine();
         StartCoroutine(spawnWaveRoutine);
+    }
+
+    public void SpawnShape(ShapeScriptable _shapeToSpawn)
+    {
+        //Calculate Random Position
+        float randomXValue = UnityEngine.Random.Range((bgBounds.center.x - bgBounds.extents.x) + 1f, (bgBounds.center.x + bgBounds.extents.x) - 1f);
+        Vector3 spawnVector = new Vector3(randomXValue, transform.position.y, transform.position.z);
+
+        //Calculate Random Rotation
+        float randomRoation = UnityEngine.Random.Range(-60f, 60f);
+        Quaternion spawnRotation = Quaternion.Euler(0, 0, randomRoation);
+
+        ShapeMatch newShape = PoolManager.instance.GetPooledObject(ObjectTypes.Shape, gameObject).GetComponent<ShapeMatch>();
+
+        if (newShape != null)
+        {
+            newShape.transform.SetPositionAndRotation(spawnVector, spawnRotation);
+            newShape.Setup(_shapeToSpawn, cam);
+            spawnedShapes.Add(newShape);
+        }
     }
 
     private IEnumerator SpawnShapeCoroutine()
@@ -58,22 +80,7 @@ public class ShapeSpawnController : MonoBehaviour
             else
                 shapeToSpawn = ShapeController.GetRandomShapeMatch();
 
-
-            //Calculate Random Position
-            float randomXValue = UnityEngine.Random.Range((bgBounds.center.x - bgBounds.extents.x) + 1f, (bgBounds.center.x + bgBounds.extents.x) - 1f);
-            Vector3 spawnVector = new Vector3(randomXValue, transform.position.y, transform.position.z);
-
-            //Calculate Random Rotation
-            float randomRoation = UnityEngine.Random.Range(-60f, 60f);
-            Quaternion spawnRotation = Quaternion.Euler(0, 0, randomRoation);
-
-            ShapeMatch newShape = PoolManager.instance.GetPooledObject(ObjectTypes.Shape, gameObject).GetComponent<ShapeMatch>();
-            if (newShape != null)
-            {
-                newShape.transform.SetPositionAndRotation(spawnVector, spawnRotation);
-                newShape.Setup(shapeToSpawn, cam);
-                spawnedShapes.Add(newShape);
-            }
+            SpawnShape(shapeToSpawn);
 
             yield return new WaitForSeconds(DifficultyManager.GetCurrentSpawnRate());
         }

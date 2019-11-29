@@ -9,6 +9,10 @@ using DG.Tweening;
 
 public class UIMenu_Gameplay : UIControllerBase
 {
+    [Header("Tutorial Refrence")]
+    [SerializeField]
+    private GameObject tutorialPanel;
+
     [Header("Score Reference")]
     [SerializeField]
     private TextMeshProUGUI scoreText;
@@ -55,6 +59,7 @@ public class UIMenu_Gameplay : UIControllerBase
     public override void CustomSetup()
     {
         videoRewardPanel.SetActive(false);
+        tutorialPanel.SetActive(false);
         newShapeText.SetActive(false);
 
         rightStartPos = rightShape.transform.position;
@@ -300,6 +305,13 @@ public class UIMenu_Gameplay : UIControllerBase
 
         videoRewardPanel.SetActive(false);
         OnPanelEndCallback?.Invoke(false);
+    }
+    #endregion
+
+    #region Tutorial Panel
+    public void EnableTutorialPanel(bool _enable)
+    {
+        tutorialPanel.SetActive(_enable);
     }
     #endregion
 }
