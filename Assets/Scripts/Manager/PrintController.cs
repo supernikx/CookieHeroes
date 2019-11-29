@@ -22,7 +22,7 @@ public class PrintController : MonoBehaviour
     public void PlayFeedback()
     {
         soundCtrl.PlayClip();
-        Vibration.Vibrate((long)2f);
+        Vibration.CreateOneShot((long)2f, 5);
     }
 
     public void EndGameAnimation(Action _animationEndCallback)
@@ -55,7 +55,7 @@ public class PrintController : MonoBehaviour
                 return;
             }
 
-            Vibration.Vibrate((long)5f);
+            Vibration.CreateOneShot((long)2f, 10);
             OnShapeWrong?.Invoke();
         }
     }
