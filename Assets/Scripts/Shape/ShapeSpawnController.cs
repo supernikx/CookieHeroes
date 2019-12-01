@@ -29,7 +29,6 @@ public class ShapeSpawnController : MonoBehaviour
         ShapeController.OnNewShapeAdd += HandleOnNewShapeAdd;
         ShapeMatch.ShapeDestroied += HandleShapeDestroyed;
 
-        spawnedShapes = new List<ShapeMatch>();
         shapeSpawnedBeforeNewShape = 0;
         nextShape = null;
 

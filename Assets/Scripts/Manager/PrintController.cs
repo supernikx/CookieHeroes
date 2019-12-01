@@ -55,7 +55,6 @@ public class PrintController : MonoBehaviour
                 return;
             }
 
-            Vibration.CreateOneShot((long)2f, 10);
             OnShapeWrong?.Invoke();
         }
     }

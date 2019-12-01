@@ -109,6 +109,11 @@ public class GameSMGameplayState : GameSMBaseState
         gameplayPanel.EnableTutorialPanel(false);
         PlayerPrefs.SetInt("Tutorial", 1);
 
+        CoroutineController.StartRoutine(StartGameDelay, 1f);
+    }
+
+    private void StartGameDelay()
+    {
         DifficultyManager.StartGame();
         spawnCtrl.StartSpawn();
     }
