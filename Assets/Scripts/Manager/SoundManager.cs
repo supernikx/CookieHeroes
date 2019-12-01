@@ -12,6 +12,21 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioMixerGroup sfxOutput;
 
+    private GameManager gm;
+    UIMenu_MainMenu mainMenuPanel;
+    private bool soundOn;
+
+    public void Setup(GameManager _gm)
+    {
+        gm = _gm;
+        mainMenuPanel = gm.GetUIManager().GetMenu<UIMenu_MainMenu>();
+
+        SoundControllersSetup();
+
+        mainMenuPanel.OnSoundToggle += HandleOnSoundToggle;
+        soundOn = PlayerPrefs.GetInt("Sound", 0) == 0;
+    }
+
     public AudioMixerGroup GetOutputGroup(SoundOutput _output)
     {
         switch (_output)
@@ -23,5 +38,29 @@ public class SoundManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public bool IsSoundOn()
+    {
+        return soundOn;
+    }
+
+    private void SoundControllersSetup()
+    {
+        SoundControllerBase[] soundCtrls = FindObjectsOfType<SoundControllerBase>();
+        for (int i = 0; i < soundCtrls.Length; i++)
+        {
+            soundCtrls[i].Init(this);
+        }
+    }
+
+    private void HandleOnSoundToggle(bool _value)
+    {
+        soundOn = _value;
+    }
+
+    private void OnDisable()
+    {
+        mainMenuPanel.OnSoundToggle -= HandleOnSoundToggle;
     }
 }

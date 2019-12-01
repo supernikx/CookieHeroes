@@ -38,10 +38,12 @@ public class GameManager : MonoBehaviour
         scoreCtrl = GetComponent<ScoreController>();
         soundMng = FindObjectOfType<SoundManager>();
 
-        printController.Setup();
+        uiMng.Setup(this);
+        soundMng.Setup(this);
+        Vibration.Setup(this);
         shapeCtrl.Setup(this);
         spawnCtrl.Setup(this);
-        uiMng.Setup(this);
+        printController.Setup();
         bgMng.Setup();        
     }
 

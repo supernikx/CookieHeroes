@@ -14,10 +14,9 @@ public abstract class SoundControllerBase : MonoBehaviour
     GameManager gm;
     SoundManager soundMng;
 
-    public virtual void Init(GameManager _gm)
+    public virtual void Init(SoundManager _soundMng)
     {
-        gm = _gm;
-        soundMng = gm.GetSoundManager();
+        soundMng = _soundMng;
 
         AudioMixerGroup mixerGroup = soundMng.GetOutputGroup(output);
         foreach (AudioSource source in sources)
@@ -28,6 +27,9 @@ public abstract class SoundControllerBase : MonoBehaviour
 
     protected void PlayAudioClip(AudioClipStruct _audioClipStruct)
     {
+        if (!soundMng.IsSoundOn())
+            return;
+
         if (!_audioClipStruct.CanUseMultipleSource)
         {
             foreach (AudioSource source in sources)

@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Vibration : MonoBehaviour
 {
-
+    public static Vibration i;
     public static AndroidJavaClass unityPlayer;
     public static AndroidJavaObject vibrator;
     public static AndroidJavaObject currentActivity;
@@ -33,11 +34,31 @@ public class Vibration : MonoBehaviour
             defaultAmplitude = vibrationEffectClass.GetStatic<int>("DEFAULT_AMPLITUDE");
         }
 #endif
+
+        i = this;
+    }
+
+    private bool canVibrate;
+    private UIMenu_MainMenu menuPanel;
+
+    public static void Setup(GameManager _gm)
+    {
+        i.menuPanel = _gm.GetUIManager().GetMenu<UIMenu_MainMenu>();
+        i.canVibrate = PlayerPrefs.GetInt("Vibration", 0) == 0;
+
+        i.menuPanel.OnVibrationToggle += HandleOnVibrationToggle;
+    }
+
+    private static void HandleOnVibrationToggle(bool _value)
+    {
+        i.canVibrate = _value;
     }
 
     //Works on API > 25
     public static void CreateOneShot(long milliseconds)
     {
+        if (!i.canVibrate)
+            return;
 
         if (isAndroid())
         {
@@ -60,6 +81,8 @@ public class Vibration : MonoBehaviour
 
     public static void CreateOneShot(long milliseconds, int amplitude)
     {
+        if (!i.canVibrate)
+            return;
 
         if (isAndroid())
         {
@@ -83,6 +106,9 @@ public class Vibration : MonoBehaviour
     //Works on API > 25
     public static void CreateWaveform(long[] timings, int repeat)
     {
+        if (!i.canVibrate)
+            return;
+
         //Amplitude array varies between no vibration and default_vibration up to the number of timings
 
         if (isAndroid())
@@ -106,6 +132,9 @@ public class Vibration : MonoBehaviour
 
     public static void CreateWaveform(long[] timings, int[] amplitudes, int repeat)
     {
+        if (!i.canVibrate)
+            return;
+
         if (isAndroid())
         {
             //If Android 8.0 (API 26+) or never use the new vibrationeffects
@@ -129,7 +158,6 @@ public class Vibration : MonoBehaviour
     //Handels all new vibration effects
     private static void CreateVibrationEffect(string function, params object[] args)
     {
-
         AndroidJavaObject vibrationEffect = vibrationEffectClass.CallStatic<AndroidJavaObject>(function, args);
         vibrator.Call("vibrate", vibrationEffect);
     }
@@ -191,5 +219,10 @@ public class Vibration : MonoBehaviour
 #else
         return false;
 #endif
+    }
+
+    private void OnDisable()
+    {
+        i.menuPanel.OnVibrationToggle -= HandleOnVibrationToggle;
     }
 }
