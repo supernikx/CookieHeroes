@@ -15,6 +15,7 @@ public class GameSMGameplayState : GameSMBaseState
     ShapeSpawnController spawnCtrl;
     UI_Manager uiMng;
     UIMenu_Gameplay gameplayPanel;
+    MusicSoundController musicCtrl;
 
     float changeShapeDelayTime = 0.05f;
     float changeShapeDelayTimer;
@@ -30,6 +31,7 @@ public class GameSMGameplayState : GameSMBaseState
         shapeCtrl = context.GetGameManager().GetShapeController();
         bgMng = context.GetGameManager().GetBackgroundManager();
         scoreCtrl = context.GetGameManager().GetScoreController();
+        musicCtrl = context.GetGameManager().GetMusicController();
 
         PrintController.OnShapeGuessed += HandleOnShapeGuessed;
         PrintController.OnShapeWrong += HandleOnShapeWrong;
@@ -40,6 +42,7 @@ public class GameSMGameplayState : GameSMBaseState
         gameplayPanel = uiMng.GetMenu<UIMenu_Gameplay>();
         uiMng.SetCurrentMenu<UIMenu_Gameplay>();
 
+        musicCtrl.PlayGameClip();
         scoreCtrl.Init();
         bgMng.StartBackground();
         gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());

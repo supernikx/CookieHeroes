@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     ShapeSpawnController spawnCtrl;
     ScoreController scoreCtrl;
     SoundManager soundMng;
+    MusicSoundController musicCtrl;
 
     private void Awake()
     {
@@ -35,11 +36,13 @@ public class GameManager : MonoBehaviour
         cam = FindObjectOfType<Camera>();
         bgMng = FindObjectOfType<BackgroundManager>();
         printController = FindObjectOfType<PrintController>();
-        scoreCtrl = GetComponent<ScoreController>();
+        scoreCtrl = FindObjectOfType<ScoreController>();
+        musicCtrl = FindObjectOfType<MusicSoundController>();
         soundMng = FindObjectOfType<SoundManager>();
 
         uiMng.Setup(this);
         soundMng.Setup(this);
+        musicCtrl.Init(soundMng);
         Vibration.Setup(this);
         shapeCtrl.Setup(this);
         spawnCtrl.Setup(this);
@@ -85,6 +88,11 @@ public class GameManager : MonoBehaviour
     public SoundManager GetSoundManager()
     {
         return soundMng;
+    }
+
+    public MusicSoundController GetMusicController()
+    {
+        return musicCtrl;
     }
 
     public static void GameOver()

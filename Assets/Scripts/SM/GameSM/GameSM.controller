@@ -38,7 +38,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: EndGame
-  retryForAds: 0
+  retryForAds: 5
 --- !u!1101 &-3985982301969646695
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

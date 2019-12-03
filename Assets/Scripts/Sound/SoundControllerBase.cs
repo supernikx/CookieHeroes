@@ -25,17 +25,17 @@ public abstract class SoundControllerBase : MonoBehaviour
         }
     }
 
-    protected void PlayAudioClip(AudioClipStruct _audioClipStruct)
+    protected AudioSource PlayAudioClip(AudioClipStruct _audioClipStruct)
     {
         if (!soundMng.IsSoundOn())
-            return;
+            return null;
 
-        if (!_audioClipStruct.CanUseMultipleSource)
+        if (!_audioClipStruct.canUseMultipleSource)
         {
             foreach (AudioSource source in sources)
             {
                 if (source.isPlaying && source.clip == _audioClipStruct.clip)
-                    return;
+                    return null;
             }
         }
 
@@ -44,10 +44,13 @@ public abstract class SoundControllerBase : MonoBehaviour
             if (!source.isPlaying)
             {
                 source.clip = _audioClipStruct.clip;
+                source.loop = _audioClipStruct.loopable;
                 source.Play();
-                return;
+                return source;
             }
         }
+
+        return null;
     }
 
     protected void StopAudioClips()
@@ -63,7 +66,8 @@ public abstract class SoundControllerBase : MonoBehaviour
 public struct AudioClipStruct
 {
     public AudioClip clip;
-    public bool CanUseMultipleSource;
+    public bool canUseMultipleSource;
+    public bool loopable;
 }
 
 public enum SoundOutput

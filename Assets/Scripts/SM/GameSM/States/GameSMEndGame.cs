@@ -15,15 +15,17 @@ public class GameSMEndGame : GameSMBaseState
     PrintController printCtrl;
     UI_Manager uiMng;
     UIMenu_EndGame endGamePanel;
+    MusicSoundController musicCtrl;
     int currentRetries = 0;
 
     public override void Enter()
     {
         uiMng = context.GetGameManager().GetUIManager();
+        endGamePanel = uiMng.GetMenu<UIMenu_EndGame>();
         spawnCtrl = context.GetGameManager().GetSpawnController();
         printCtrl = context.GetGameManager().GetPrintController();
         bgMng = context.GetGameManager().GetBackgroundManager();
-        endGamePanel = uiMng.GetMenu<UIMenu_EndGame>();
+        musicCtrl = context.GetGameManager().GetMusicController();
 
         endGamePanel.RetyButtonPressed = RetryButtonPressed;
 
@@ -38,6 +40,7 @@ public class GameSMEndGame : GameSMBaseState
         if (spawnCtrl != null)
             spawnCtrl.StopSpawn();
 
+        musicCtrl.PlayEndGameClip();
         uiMng.SetCurrentMenu<UIMenu_EndGame>();
     }
 

@@ -8,13 +8,16 @@ public class GameSMMenuState : GameSMBaseState
 {
     UI_Manager uiMng;
     UIMenu_MainMenu mainMenuPanel;
+    MusicSoundController musicCtrl;
 
     public override void Enter()
     {
         uiMng = context.GetGameManager().GetUIManager();
-        uiMng.SetCurrentMenu<UIMenu_MainMenu>();
-
         mainMenuPanel = uiMng.GetMenu<UIMenu_MainMenu>();
+        musicCtrl = context.GetGameManager().GetMusicController();
+
+        musicCtrl.PlayMainMenuClip();
+        uiMng.SetCurrentMenu<UIMenu_MainMenu>();
         mainMenuPanel.StartGameButtonPressed = StartGameButtonPressed;
     }
 
