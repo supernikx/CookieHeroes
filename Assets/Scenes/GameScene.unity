@@ -2544,18 +2544,18 @@ MonoBehaviour:
     canUseMultipleSource: 0
     loopable: 1
   gameAudioClip:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 57436e5d1cb51584c932975b12fb35db, type: 3}
     canUseMultipleSource: 0
     loopable: 1
   endGameAudioClip:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a803d2e26cc866848a860487a25759b4, type: 3}
     canUseMultipleSource: 0
     loopable: 1
   additiveGameAudioClip:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1a34ac2e5991a7748942eb82f3c59063, type: 3}
     canUseMultipleSource: 0
     loopable: 0
-  additiveGameAudioClipTime: 2
+  additiveGameAudioClipTime: 239.9
 --- !u!1 &771395011
 GameObject:
   m_ObjectHideFlags: 0
