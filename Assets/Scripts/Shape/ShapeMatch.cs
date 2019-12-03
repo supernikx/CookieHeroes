@@ -43,6 +43,7 @@ public class ShapeMatch : MonoBehaviour, IPoolObject
     SpriteRenderer spriteRenderer;
     Bounds bound;
     bool isSetupped = false;
+    bool isToGuess = true;
 
     public void Setup(ShapeScriptable _shape, Camera _cam)
     {
@@ -53,6 +54,7 @@ public class ShapeMatch : MonoBehaviour, IPoolObject
         bound = _cam.GetOrthographicBounds();
 
         OnObjectSpawn?.Invoke(this);
+        isToGuess = true;
         isSetupped = true;
     }
 
@@ -68,6 +70,8 @@ public class ShapeMatch : MonoBehaviour, IPoolObject
 
     public bool CheckShape(ShapeScriptable _shape)
     {
+        isToGuess = false;
+
         if (ShapeController.GetCurrentShape() == shape)
         {
             spriteMask.sprite = shape.shadowSprite;
@@ -83,7 +87,13 @@ public class ShapeMatch : MonoBehaviour, IPoolObject
         ShapeDestroied?.Invoke(this);
         OnObjectDestroy?.Invoke(this);
 
+        shape = null;
         spriteMask.sprite = null;
         isSetupped = false;
+    }
+
+    public bool IsToGuess()
+    {
+        return isToGuess;
     }
 }

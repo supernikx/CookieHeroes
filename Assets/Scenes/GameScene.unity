@@ -2077,7 +2077,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDelayTime: 3
-  addNewShapeAfter: 15
 --- !u!114 &637295189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2098,6 +2097,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 07e93cacd2b786446962eb533de969aa, type: 2}
   - {fileID: 11400000, guid: d2754341ec8d01f48aec02cd932bcbd3, type: 2}
   startShapeIndex: 0
+  addNewShapeAfter: 3
 --- !u!1 &699832141
 GameObject:
   m_ObjectHideFlags: 0

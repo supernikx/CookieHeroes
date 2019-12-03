@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 /// <summary>
 /// Stato di Gameplay della GameSM
@@ -15,7 +16,7 @@ public class GameSMGameplayState : GameSMBaseState
     UI_Manager uiMng;
     UIMenu_Gameplay gameplayPanel;
 
-    float changeShapeDelayTime = 0.1f;
+    float changeShapeDelayTime = 0.05f;
     float changeShapeDelayTimer;
     bool readInput;
     bool isTutorial;
@@ -128,7 +129,31 @@ public class GameSMGameplayState : GameSMBaseState
 
     private void HandleOnNewShapeAdd(ShapeScriptable _newShape)
     {
+        shapeCtrl.StartCoroutine(NewShapeEffectCorutine(_newShape));
+    }
+
+    private IEnumerator NewShapeEffectCorutine(ShapeScriptable _newShape)
+    {
+        float animDur = 0.03f;
+        int currentShapeIndex = ShapeController.GetCurrentShapeIndex();
+        readInput = false;
+        Direction randomDir = UnityEngine.Random.Range(0, 2) == 0 ? Direction.Right : Direction.Left;
+
+        for (int i = 0; i < 15; i++)
+        {
+            gameplayPanel.UpdateShape(randomDir, ShapeController.GetShapeByIndex(currentShapeIndex), ShapeController.GetShapeByIndex(currentShapeIndex - 1), ShapeController.GetShapeByIndex(currentShapeIndex + 1), true, animDur);
+            currentShapeIndex++;
+
+            if (randomDir == Direction.Right)
+                SwipeController.RightSwipe();
+            else
+                SwipeController.LeftSwipe();
+
+            yield return new WaitForSeconds(animDur);
+        }
+
         shapeCtrl.ChangeShape(_newShape);
+        readInput = true;
     }
 
     private void HandleOnShapeGuessed()
@@ -136,7 +161,6 @@ public class GameSMGameplayState : GameSMBaseState
         scoreCtrl.AddScore();
         gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());
     }
-
 
     private void HandleOnShapeWrong()
     {

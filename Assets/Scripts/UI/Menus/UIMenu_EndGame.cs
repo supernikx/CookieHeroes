@@ -13,12 +13,14 @@ public class UIMenu_EndGame : UIControllerBase
     [SerializeField]
     private GameObject highScoreText;
 
+    private Vector3 defaultCookieCounterScale;
     private ScoreController scoreCtrl;
     private IEnumerator counterRoutine;
 
     public override void CustomSetup()
     {
         scoreCtrl = manager.GetGameManager().GetScoreController();
+        defaultCookieCounterScale = cookieCounterText.gameObject.transform.localScale;
     }
 
     public override void ToggleMenu(bool _value)
@@ -28,13 +30,18 @@ public class UIMenu_EndGame : UIControllerBase
         if (isActive)
         {
             highScoreText.SetActive(false);
+
             counterRoutine = CounterCoroutine(scoreCtrl.GetCurrentScore());
             StartCoroutine(counterRoutine);
         }
         else
         {
+
             if (counterRoutine != null)
                 StopCoroutine(counterRoutine);
+
+            cookieCounterText.gameObject.transform.localScale = defaultCookieCounterScale;
+            highScoreText.SetActive(false);
         }
     }
 

@@ -85,21 +85,23 @@ public class SwipeController : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary)
             {
                 touchPosition = touch.position;
             }
-            else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+            else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Moved)
             {
                 Vector2 deltaSwipe = touchPosition - touch.position;
 
                 if (Mathf.Abs(deltaSwipe.x) > handledSwipeResistanceX)
                 {
                     direction = (deltaSwipe.x < 0) ? Direction.Right : Direction.Left;
+                    touchPosition = touch.position;
                 }
                 if (Mathf.Abs(deltaSwipe.y) > handledSwipeResistanceY)
                 {
                     direction = (deltaSwipe.y < 0) ? Direction.Up : Direction.Down;
+                    touchPosition = touch.position;
                 }
             }
         }

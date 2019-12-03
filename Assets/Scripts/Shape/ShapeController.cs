@@ -18,11 +18,14 @@ public class ShapeController : MonoBehaviour
     private List<ShapeScriptable> addShapes;
     [SerializeField]
     private int startShapeIndex;
+    [SerializeField]
+    private int addNewShapeAfter;
 
     private GameManager gm;
     private List<ShapeScriptable> shapesToAdd;
     private List<ShapeScriptable> currentShapes;
     private int shapeIndex = 0;
+    private int shapeGuessed;
 
     public void Setup(GameManager _gm)
     {
@@ -32,6 +35,7 @@ public class ShapeController : MonoBehaviour
         shapesToAdd = new List<ShapeScriptable>(addShapes);
         currentShapes = new List<ShapeScriptable>(startShapes);
 
+        PrintController.OnShapeGuessed += HandleOnShapeGuessed;
         gm.OnGameEnd += HandleGameEnd;
     }
 
@@ -111,15 +115,38 @@ public class ShapeController : MonoBehaviour
         }
     }
 
+    public static bool CheckNextShapeToAdd(int _shapesInGame)
+    {
+        if (i.shapesToAdd.Count == 0)
+            return false;
+
+        return i.shapeGuessed + _shapesInGame == i.addNewShapeAfter;
+    }
+
     private void HandleGameEnd()
     {
         shapesToAdd = new List<ShapeScriptable>(addShapes);
         currentShapes = new List<ShapeScriptable>(startShapes);
         shapeIndex = startShapeIndex;
+        shapeGuessed = 0;
+    }
+
+    private void HandleOnShapeGuessed()
+    {
+        if (i.shapesToAdd.Count == 0)
+            return;
+
+        shapeGuessed++;
+        if (shapeGuessed == addNewShapeAfter)
+        {
+            AddNewShape();
+            shapeGuessed = 0;
+        }
     }
 
     private void OnDisable()
     {
+        PrintController.OnShapeGuessed -= HandleOnShapeGuessed;
         gm.OnGameEnd -= HandleGameEnd;
     }
 }

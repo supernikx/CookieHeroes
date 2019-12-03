@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,9 @@ public class ShapeSpawnController : MonoBehaviour
 {
     [SerializeField]
     private float startDelayTime;
-    [SerializeField]
-    private int addNewShapeAfter;
 
     private Camera cam;
     private Bounds bgBounds;
-    private int shapeSpawnedBeforeNewShape;
     private List<ShapeMatch> spawnedShapes;
     private ShapeScriptable nextShape;
     private IEnumerator spawnWaveRoutine;
@@ -28,8 +26,6 @@ public class ShapeSpawnController : MonoBehaviour
     {
         ShapeController.OnNewShapeAdd += HandleOnNewShapeAdd;
         ShapeMatch.ShapeDestroied += HandleShapeDestroyed;
-
-        shapeSpawnedBeforeNewShape = 0;
         nextShape = null;
 
         spawnWaveRoutine = SpawnShapeCoroutine();
@@ -62,22 +58,25 @@ public class ShapeSpawnController : MonoBehaviour
 
         while (true)
         {
-            shapeSpawnedBeforeNewShape++;
-            if (shapeSpawnedBeforeNewShape == addNewShapeAfter)
-            {
-                ShapeController.AddNewShape();
-                shapeSpawnedBeforeNewShape = 0;
-                yield return new WaitForSeconds(0.1f);
-            }
-
             ShapeScriptable shapeToSpawn;
             if (nextShape != null)
             {
                 shapeToSpawn = nextShape;
                 nextShape = null;
+
+                yield return new WaitForSeconds(0.5f);
             }
             else
+            {
+                int shapeToGuess = spawnedShapes.Count(s => s.IsToGuess());
+                if (ShapeController.CheckNextShapeToAdd(shapeToGuess))
+                {
+                    yield return null;
+                    continue;
+                }
+
                 shapeToSpawn = ShapeController.GetRandomShapeMatch();
+            }
 
             SpawnShape(shapeToSpawn);
 
@@ -87,7 +86,6 @@ public class ShapeSpawnController : MonoBehaviour
 
     private void HandleOnNewShapeAdd(ShapeScriptable _newShape)
     {
-        DestroyShapes();
         nextShape = _newShape;
     }
 
