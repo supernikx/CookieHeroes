@@ -11,6 +11,8 @@ public class SwipeController : MonoBehaviour
     float desktopSwipeResistanceX = 50;
     [SerializeField]
     float handledSwipeResistanceX = 200;
+    [SerializeField]
+    float handledMoveResistanceX = 200;
 
     [Header("Feedback Settings")]
     [SerializeField]
@@ -82,15 +84,23 @@ public class SwipeController : MonoBehaviour
                 touchPosition = touch.position;
             }
             
-            if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled || touch.phase == TouchPhase.Moved)
+            if (touch.phase == TouchPhase.Moved)
             {
                 float xValue = touchPosition.x - touch.position.x;
 
-                if (Mathf.Abs(xValue) > handledSwipeResistanceX)
+                if (Mathf.Abs(xValue) > handledMoveResistanceX)
                 {
                     direction = (xValue < 0) ? Direction.Right : Direction.Left;
                     touchPosition = touch.position;
                 }
+            }
+
+            if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+            {
+                float xValue = touchPosition.x - touch.position.x;
+
+                if (Mathf.Abs(xValue) > handledSwipeResistanceX)
+                    direction = (xValue < 0) ? Direction.Right : Direction.Left;
             }
         }
     }

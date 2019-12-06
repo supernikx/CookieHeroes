@@ -108,6 +108,7 @@ public class ShapeController : MonoBehaviour
     {
         if (i.shapesToAdd != null && i.shapesToAdd.Count > 0)
         {
+            i.shapeGuessed = 0;
             ShapeScriptable shapeToAdd = i.shapesToAdd[0];
             i.shapesToAdd.RemoveAt(0);
             i.currentShapes.Add(shapeToAdd);
@@ -139,8 +140,7 @@ public class ShapeController : MonoBehaviour
         shapeGuessed++;
         if (shapeGuessed == addNewShapeAfter)
         {
-            AddNewShape();
-            shapeGuessed = 0;
+            CoroutineController.StartRoutine(AddNewShape, 0.5f);
         }
     }
 

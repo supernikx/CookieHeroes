@@ -2540,7 +2540,7 @@ MonoBehaviour:
   - {fileID: 2045022879}
   - {fileID: 592919560}
   mainMenuAudioClip:
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 110142ebe32d56e40b315fc52ad7be07, type: 3}
     canUseMultipleSource: 0
     loopable: 1
   gameAudioClip:
@@ -5383,7 +5383,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desktopSwipeResistanceX: 50
-  handledSwipeResistanceX: 150
+  handledSwipeResistanceX: 100
+  handledMoveResistanceX: 200
   leftSwipSoundCtrl: {fileID: 1145643439}
   rightSwipeSoundCtrl: {fileID: 1808642502}
 --- !u!114 &1855727368
