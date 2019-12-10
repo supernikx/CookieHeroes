@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -17,12 +18,18 @@ public abstract class SoundControllerBase : MonoBehaviour
     public virtual void Init(SoundManager _soundMng)
     {
         soundMng = _soundMng;
+        soundMng.OnSoundUpdated += HandleOnSoundUpdated;
 
         AudioMixerGroup mixerGroup = soundMng.GetOutputGroup(output);
         foreach (AudioSource source in sources)
         {
             source.outputAudioMixerGroup = mixerGroup;
         }
+    }
+
+    protected virtual void HandleOnSoundUpdated(bool _toggle)
+    {
+        return;
     }
 
     protected AudioSource PlayAudioClip(AudioClipStruct _audioClipStruct)
@@ -59,6 +66,12 @@ public abstract class SoundControllerBase : MonoBehaviour
         {
             source.Stop();
         }
+    }
+
+    private void OnDisable()
+    {
+        if (soundMng != null)
+            soundMng.OnSoundUpdated -= HandleOnSoundUpdated;
     }
 }
 

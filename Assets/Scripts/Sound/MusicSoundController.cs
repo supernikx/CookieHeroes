@@ -36,8 +36,11 @@ public class MusicSoundController : SoundControllerBase
             StopCoroutine(gameDelayClipRoutine);
 
         AudioSource clipSource = PlayAudioClip(gameAudioClip);
-        gameDelayClipRoutine = GameDelayClipCoroutine(clipSource);
-        StartCoroutine(gameDelayClipRoutine);
+        if (clipSource != null)
+        {
+            gameDelayClipRoutine = GameDelayClipCoroutine(clipSource);
+            StartCoroutine(gameDelayClipRoutine);
+        }
     }
 
     public void PlayEndGameClip()
@@ -51,6 +54,14 @@ public class MusicSoundController : SoundControllerBase
     public void StopClip()
     {
         StopAudioClips();
+    }
+
+    protected override void HandleOnSoundUpdated(bool _toggle)
+    {
+        if (_toggle)
+            PlayMainMenuClip();
+        else
+            StopClip();
     }
 
     private IEnumerator GameDelayClipCoroutine(AudioSource _clipSource)

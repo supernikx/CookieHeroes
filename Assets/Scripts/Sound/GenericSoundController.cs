@@ -18,4 +18,12 @@ public class GenericSoundController : SoundControllerBase
     {
         StopAudioClips();
     }
+
+    protected override void HandleOnSoundUpdated(bool _toggle)
+    {
+        if (_toggle)
+            PlayClip();
+        else
+            StopClip();
+    }
 }

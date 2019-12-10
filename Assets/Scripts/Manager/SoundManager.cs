@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
+    #region Actions
+    public Action<bool> OnSoundUpdated;
+    #endregion
+
     [Header("Sound Settings")]
     [SerializeField]
     private AudioMixer audioMixer;
@@ -13,7 +18,7 @@ public class SoundManager : MonoBehaviour
     private AudioMixerGroup sfxOutput;
 
     private GameManager gm;
-    UIMenu_MainMenu mainMenuPanel;
+    private UIMenu_MainMenu mainMenuPanel;
     private bool soundOn;
 
     public void Setup(GameManager _gm)
@@ -49,14 +54,13 @@ public class SoundManager : MonoBehaviour
     {
         SoundControllerBase[] soundCtrls = FindObjectsOfType<SoundControllerBase>();
         for (int i = 0; i < soundCtrls.Length; i++)
-        {
             soundCtrls[i].Init(this);
-        }
     }
 
     private void HandleOnSoundToggle(bool _value)
     {
         soundOn = _value;
+        OnSoundUpdated?.Invoke(_value);
     }
 
     private void OnDisable()
