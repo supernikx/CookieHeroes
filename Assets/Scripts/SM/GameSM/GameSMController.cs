@@ -76,7 +76,10 @@ public class GameSMController : StateMachineBase
                 GoToState("EndGame");
                 break;
             case "EndGame":
-                GoToState("MainMenu");
+                if (_exitCondition == 1)
+                    GoToState("MainMenu");
+                else if (_exitCondition == 2)
+                    GoToState("Gameplay");
                 break;
         }
     }

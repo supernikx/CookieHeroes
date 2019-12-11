@@ -15,7 +15,11 @@ namespace IC.UIBase
         /// <summary>
         /// Stato di attivo o disattivo del menù
         /// </summary>
-        protected bool isActive;
+        protected bool isActive;   
+        /// <summary>
+        /// Stato di enable o disable del menù
+        /// </summary>
+        protected bool isEnable;
 
         /// <summary>
         /// Setup del menu
@@ -41,6 +45,15 @@ namespace IC.UIBase
         }
 
         /// <summary>
+        /// Funzione che ritorna true se il menù è abilitato
+        /// </summary>
+        /// <returns></returns>
+        public bool IsEnable()
+        {
+            return isEnable;
+        }
+
+        /// <summary>
         /// Funzion che attiva o disattiva il GameObject del menù
         /// </summary>
         /// <param name="_value"></param>
@@ -48,6 +61,15 @@ namespace IC.UIBase
         {
             isActive = _value;
             gameObject.SetActive(isActive);
+        }
+
+        /// <summary>
+        /// Funzione che disabilita gli input del pannello
+        /// </summary>
+        /// <param name="_enable"></param>
+        public virtual void Enable(bool _enable)
+        {
+            isEnable = _enable;
         }
     }
 }

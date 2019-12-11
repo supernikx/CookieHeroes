@@ -12,6 +12,7 @@ public class GameSMGameplayState : GameSMBaseState
     UnityAdsManager adsMng;
     ShapeController shapeCtrl;
     BackgroundManager bgMng;
+    PrintController printCtrl;
     ShapeSpawnController spawnCtrl;
     UI_Manager uiMng;
     UIMenu_Gameplay gameplayPanel;
@@ -19,17 +20,20 @@ public class GameSMGameplayState : GameSMBaseState
 
     float changeShapeDelayTime = 0.05f;
     float changeShapeDelayTimer;
+    bool startState;
     bool readInput;
     bool isTutorial;
     bool videoAlreadyWhatched;
 
     public override void Enter()
     {
+        startState = false;
         adsMng = UnityAdsManager.instance;
         spawnCtrl = context.GetGameManager().GetSpawnController();
         uiMng = context.GetGameManager().GetUIManager();
         shapeCtrl = context.GetGameManager().GetShapeController();
         bgMng = context.GetGameManager().GetBackgroundManager();
+        printCtrl = context.GetGameManager().GetPrintController();
         scoreCtrl = context.GetGameManager().GetScoreController();
         musicCtrl = context.GetGameManager().GetMusicController();
 
@@ -40,13 +44,23 @@ public class GameSMGameplayState : GameSMBaseState
         context.GetGameManager().OnGameEnd += HandleOnGameEnd;
 
         gameplayPanel = uiMng.GetMenu<UIMenu_Gameplay>();
-        uiMng.SetCurrentMenu<UIMenu_Gameplay>();
+        printCtrl.EnableGraphic(false);
+        uiMng.SetCurrentMenu<UIMenu_Gameplay>(0.5f, 0.5f, OnGameplayFadeIntCallback, OnGameplayFadeOutCallback);
+    }
 
+    #region Callbacks
+    private void OnGameplayFadeIntCallback()
+    {
+        printCtrl.EnableGraphic(true);
         musicCtrl.PlayGameClip();
         scoreCtrl.Init();
-        bgMng.StartBackground();
         gameplayPanel.UpdateScore(scoreCtrl.GetCurrentScore());
         HandleOnShapeChange(Direction.None, ShapeController.GetCurrentShape(), false);
+    }
+
+    private void OnGameplayFadeOutCallback()
+    {
+        bgMng.StartBackground();
         videoAlreadyWhatched = false;
 
         int firstGame = PlayerPrefs.GetInt("Tutorial", 0);
@@ -63,10 +77,16 @@ public class GameSMGameplayState : GameSMBaseState
             readInput = true;
             isTutorial = false;
         }
+
+        startState = true;
     }
+    #endregion
 
     public override void Tick()
     {
+        if (!startState)
+            return;
+
         if (changeShapeDelayTimer > 0)
         {
             changeShapeDelayTimer -= Time.deltaTime;

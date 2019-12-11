@@ -17,12 +17,18 @@ public class GameSMMenuState : GameSMBaseState
         musicCtrl = context.GetGameManager().GetMusicController();
 
         musicCtrl.PlayMainMenuClip();
-        uiMng.SetCurrentMenu<UIMenu_MainMenu>();
+        uiMng.SetCurrentMenuAnimation<UIMenu_MainMenu>("MainMenuIn");
         mainMenuPanel.StartGameButtonPressed = StartGameButtonPressed;
     }
 
     private void StartGameButtonPressed()
     {
+        uiMng.SetCurrentMenuAnimation<UIMenu_MainMenu>("MainMenuOut", OnMainMenuAnimationEndCallback);
+    }
+
+    private void OnMainMenuAnimationEndCallback()
+    {
         Complete();
     }
+
 }

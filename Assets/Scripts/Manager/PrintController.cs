@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class PrintController : MonoBehaviour
 {
     public static Action OnShapeGuessed;
     public static Action OnShapeWrong;
+
+    [Header("Print Settings")]
+    [SerializeField]
+    private GameObject graphic;
 
     private Animator anim;
     private GenericSoundController soundCtrl;
@@ -17,6 +20,11 @@ public class PrintController : MonoBehaviour
         anim = GetComponent<Animator>();
         soundCtrl = GetComponent<GenericSoundController>();
         readCollision = true;
+    }
+
+    public void EnableGraphic(bool _enable)
+    {
+        graphic.SetActive(_enable);
     }
 
     public void PlayFeedback()

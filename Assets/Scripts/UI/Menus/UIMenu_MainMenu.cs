@@ -13,8 +13,6 @@ public class UIMenu_MainMenu : UIControllerBase
 
     [Header("Panel References")]
     [SerializeField]
-    private GameObject optionsPanel;
-    [SerializeField]
     private Toggle vibrationToggle;
     [SerializeField]
     private Toggle soundToggle;
@@ -28,22 +26,21 @@ public class UIMenu_MainMenu : UIControllerBase
 
         int vibrationPref = PlayerPrefs.GetInt("Vibration", 0);
         vibrationToggle.isOn = (vibrationPref == 0);
-
-        optionsPanel.SetActive(false);
     }
 
     public void StartGame()
     {
-        StartGameButtonPressed?.Invoke();
-    }
+        if (!IsEnable())
+            return;
 
-    public void OptionsButton()
-    {
-        optionsPanel.SetActive(true);
+        StartGameButtonPressed?.Invoke();
     }
 
     public void ToggleSound(bool _value)
     {
+        if (!IsEnable())
+            return;
+
         int soundPref = _value ? 0 : 1;
         PlayerPrefs.SetInt("Sound", soundPref);
 
@@ -52,6 +49,9 @@ public class UIMenu_MainMenu : UIControllerBase
 
     public void ToggleVibration(bool _value)
     {
+        if (!IsEnable())
+            return;
+
         int vibrationPref = _value ? 0 : 1;
         PlayerPrefs.SetInt("Vibration", vibrationPref);
 
