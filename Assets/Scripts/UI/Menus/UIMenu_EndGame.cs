@@ -14,7 +14,7 @@ public class UIMenu_EndGame : UIControllerBase
     [SerializeField]
     private GameObject highScoreText;
     [SerializeField]
-    private GenericSoundController soundCtrl;
+    private GenericSoundController traySoundCtrl;
 
     private Vector3 defaultCookieCounterScale;
     private ScoreController scoreCtrl;
@@ -24,7 +24,7 @@ public class UIMenu_EndGame : UIControllerBase
     {
         scoreCtrl = manager.GetGameManager().GetScoreController();
         defaultCookieCounterScale = cookieCounterText.gameObject.transform.localScale;
-        soundCtrl.Init(manager.GetGameManager().GetSoundManager());
+        traySoundCtrl.Init(manager.GetGameManager().GetSoundManager());
     }
 
     public override void ToggleMenu(bool _value)
@@ -34,9 +34,6 @@ public class UIMenu_EndGame : UIControllerBase
         if (isActive)
         {
             highScoreText.SetActive(false);
-
-            counterRoutine = CounterCoroutine(scoreCtrl.GetCurrentScore());
-            StartCoroutine(counterRoutine);
         }
         else
         {
@@ -59,15 +56,22 @@ public class UIMenu_EndGame : UIControllerBase
         MainMenuButtonPressed?.Invoke();
     }
 
-    public void PlayFeedback()
+    public void PlayTrayFeedback()
     {
-        soundCtrl.PlayClip();
+        traySoundCtrl.PlayClip();
+    }
+
+    public void PlayCounterRoutine()
+    {
+        counterRoutine = CounterCoroutine(scoreCtrl.GetCurrentScore());
+        StartCoroutine(counterRoutine);
     }
 
     private IEnumerator CounterCoroutine(int _cookieCount)
     {
         int cookieCount = 0;
         bool highScore = scoreCtrl.CheckHighScore();
+        cookieCounterText.text = cookieCount.ToString();
 
         cookieCounterText.gameObject.transform.localScale = cookieCounterText.gameObject.transform.localScale * 1.2f;
         while (cookieCount < _cookieCount)

@@ -12,6 +12,8 @@ public class UIMenu_Gameplay : UIControllerBase
     [Header("Tutorial Refrence")]
     [SerializeField]
     private GameObject tutorialPanel;
+    [SerializeField]
+    private Animator tutorialAnimator;
 
     [Header("Score Reference")]
     [SerializeField]
@@ -43,6 +45,8 @@ public class UIMenu_Gameplay : UIControllerBase
     [SerializeField]
     private Image fillImage;
     [SerializeField]
+    private GameObject gradientImage;
+    [SerializeField]
     private float panelDuration;
 
     private Vector3 rightStartPos;
@@ -55,6 +59,7 @@ public class UIMenu_Gameplay : UIControllerBase
     private Quaternion newStartRot;
     private IEnumerator newShapeFeedbackRoutine;
     private IEnumerator changeShapeRoutine;
+    private bool canShowAd;
 
     public override void CustomSetup()
     {
@@ -100,7 +105,7 @@ public class UIMenu_Gameplay : UIControllerBase
         leftShape.transform.position = leftStartPos;
         centerShape.transform.position = centerStartPos;
         newShape.transform.position = newStartPos;
- 
+
         rightShape.transform.rotation = rightStartRot;
         leftShape.transform.rotation = leftStartRot;
         centerShape.transform.rotation = centerStartRot;
@@ -129,7 +134,7 @@ public class UIMenu_Gameplay : UIControllerBase
 
     public void UpdateScore(int _newScore)
     {
-        scoreText.text = "X" + _newScore.ToString();
+        scoreText.text = _newScore.ToString();
     }
 
     private void HandleOnNewShapeAdd(ShapeScriptable _newShape)
@@ -140,8 +145,11 @@ public class UIMenu_Gameplay : UIControllerBase
 
     private IEnumerator NewShapeFeedbackCoroutine()
     {
+        Vector3 currentScale = newShape.transform.localScale;
+        newShapeText.transform.localScale = new Vector3(0, 0, currentScale.z);
         newShapeText.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return newShapeText.transform.DOScale(currentScale, 0.5f).WaitForCompletion();
+        yield return new WaitForSeconds(0.5f);
         newShapeText.SetActive(false);
     }
 
@@ -264,6 +272,9 @@ public class UIMenu_Gameplay : UIControllerBase
 
     public void PlayVideoButton()
     {
+        if (!canShowAd)
+            return;
+
         if (videoRewardPanelRoutine != null)
             StopCoroutine(videoRewardPanelRoutine);
 
@@ -292,7 +303,15 @@ public class UIMenu_Gameplay : UIControllerBase
 
     private IEnumerator VideoRewardPanelCoroutine()
     {
+        canShowAd = false;
         videoRewardPanel.SetActive(true);
+        gradientImage.SetActive(false);
+        fillImage.fillAmount = 1;
+        Vector3 currentScale = videoRewardPanel.transform.localScale;
+        videoRewardPanel.transform.localScale = new Vector3(0, 0, currentScale.z);
+        yield return videoRewardPanel.transform.DOScale(currentScale, 0.5f).SetUpdate(true).WaitForCompletion();
+        gradientImage.SetActive(true);
+        canShowAd = true;
         float timer = 0;
         WaitForEndOfFrame wfeof = new WaitForEndOfFrame();
 
@@ -312,6 +331,11 @@ public class UIMenu_Gameplay : UIControllerBase
     public void EnableTutorialPanel(bool _enable)
     {
         tutorialPanel.SetActive(_enable);
+    }
+
+    public void StartTutorialPanel()
+    {
+        tutorialAnimator.SetTrigger("StartTutorial");
     }
     #endregion
 }

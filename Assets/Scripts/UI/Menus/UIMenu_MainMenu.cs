@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using IC.UIBase;
 
 public class UIMenu_MainMenu : UIControllerBase
@@ -16,6 +17,10 @@ public class UIMenu_MainMenu : UIControllerBase
     private Toggle vibrationToggle;
     [SerializeField]
     private Toggle soundToggle;
+    [SerializeField]
+    private GameObject highScoreText;
+    [SerializeField]
+    private TextMeshProUGUI higScoreScore;
 
     public override void CustomSetup()
     {
@@ -26,6 +31,23 @@ public class UIMenu_MainMenu : UIControllerBase
 
         int vibrationPref = PlayerPrefs.GetInt("Vibration", 0);
         vibrationToggle.isOn = (vibrationPref == 0);
+    }
+
+    public override void ToggleMenu(bool _value)
+    {
+        base.ToggleMenu(_value);
+
+        if (_value)
+        {
+            int highScore = PlayerPrefs.GetInt("HighScore", 0);
+            if (highScore > 0)
+            {
+                higScoreScore.text = highScore.ToString();
+                highScoreText.SetActive(true);
+            }
+            else
+                highScoreText.SetActive(false);
+        }
     }
 
     public void StartGame()

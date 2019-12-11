@@ -9,9 +9,9 @@ public class GenericSoundController : SoundControllerBase
     [SerializeField]
     private AudioClipStruct clip;
 
-    public void PlayClip()
+    public void PlayClip(bool _overrideClip = false)
     {
-        PlayAudioClip(clip);
+        PlayAudioClip(clip, _overrideClip);
     }
 
     public void StopClip()

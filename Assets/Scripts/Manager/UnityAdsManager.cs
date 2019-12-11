@@ -56,6 +56,6 @@ public class UnityAdsManager : MonoBehaviour
 
     public bool CheckCanShowAD()
     {
-        return (enableAds && Application.internetReachability != NetworkReachability.NotReachable && Advertisement.IsReady());
+        return (enableAds && Advertisement.IsReady());
     }
 }

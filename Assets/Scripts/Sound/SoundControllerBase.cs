@@ -32,12 +32,12 @@ public abstract class SoundControllerBase : MonoBehaviour
         return;
     }
 
-    protected AudioSource PlayAudioClip(AudioClipStruct _audioClipStruct)
+    protected AudioSource PlayAudioClip(AudioClipStruct _audioClipStruct, bool _overrideClip)
     {
         if (!soundMng.IsSoundOn())
             return null;
 
-        if (!_audioClipStruct.canUseMultipleSource)
+        if (!_audioClipStruct.canUseMultipleSource && !_overrideClip)
         {
             foreach (AudioSource source in sources)
             {
@@ -52,6 +52,13 @@ public abstract class SoundControllerBase : MonoBehaviour
             {
                 source.clip = _audioClipStruct.clip;
                 source.loop = _audioClipStruct.loopable;
+                source.Play();
+                return source;
+            }
+
+            if (source.isPlaying && source.clip == _audioClipStruct.clip && _overrideClip)
+            {
+                source.Stop();
                 source.Play();
                 return source;
             }

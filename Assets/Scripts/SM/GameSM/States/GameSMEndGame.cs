@@ -42,13 +42,18 @@ public class GameSMEndGame : GameSMBaseState
             spawnCtrl.StopSpawn();
 
         musicCtrl.PlayEndGameClip();
-        uiMng.SetCurrentMenu<UIMenu_EndGame>(0.5f, 0.5f, EndGameAnim);
+        uiMng.SetCurrentMenu<UIMenu_EndGame>(0.5f, 0.5f, EndGameAnimIn, EndGameAnimOut);
     }
 
-    private void EndGameAnim()
+    private void EndGameAnimIn()
     {
         uiMng.SetCurrentMenuAnimation<UIMenu_EndGame>("EndGame");
-        endGamePanel.PlayFeedback();
+        endGamePanel.PlayTrayFeedback();
+    }
+
+    private void EndGameAnimOut()
+    {
+        endGamePanel.PlayCounterRoutine();
     }
     #endregion
 

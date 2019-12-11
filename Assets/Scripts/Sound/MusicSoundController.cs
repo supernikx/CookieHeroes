@@ -26,7 +26,7 @@ public class MusicSoundController : SoundControllerBase
         if (gameDelayClipRoutine != null)
             StopCoroutine(gameDelayClipRoutine);
 
-        PlayAudioClip(mainMenuAudioClip);
+        PlayAudioClip(mainMenuAudioClip, false);
     }
 
     public void PlayGameClip()
@@ -35,7 +35,7 @@ public class MusicSoundController : SoundControllerBase
         if (gameDelayClipRoutine != null)
             StopCoroutine(gameDelayClipRoutine);
 
-        AudioSource clipSource = PlayAudioClip(gameAudioClip);
+        AudioSource clipSource = PlayAudioClip(gameAudioClip, false);
         if (clipSource != null)
         {
             gameDelayClipRoutine = GameDelayClipCoroutine(clipSource);
@@ -48,7 +48,7 @@ public class MusicSoundController : SoundControllerBase
         StopAudioClips();
         if (gameDelayClipRoutine != null)
             StopCoroutine(gameDelayClipRoutine);
-        PlayAudioClip(endGameAudioClip);
+        PlayAudioClip(endGameAudioClip, false);
     }
 
     public void StopClip()
@@ -72,7 +72,7 @@ public class MusicSoundController : SoundControllerBase
             if (_clipSource.time >= additiveGameAudioClipTime && !oneTime)
             {
                 oneTime = true;
-                PlayAudioClip(additiveGameAudioClip);
+                PlayAudioClip(additiveGameAudioClip, false);
             }
 
             if (_clipSource.time < additiveGameAudioClipTime)
