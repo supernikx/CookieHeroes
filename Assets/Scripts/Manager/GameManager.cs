@@ -11,16 +11,26 @@ public class GameManager : MonoBehaviour
 
     private static GameManager i;
 
-    Camera cam;
-    BackgroundManager bgMng;
-    PrintController printController;
-    GameSMController smCtrl;
-    UI_Manager uiMng;
-    ShapeController shapeCtrl;
-    ShapeSpawnController spawnCtrl;
-    ScoreController scoreCtrl;
-    SoundManager soundMng;
-    MusicSoundController musicCtrl;
+    [SerializeField]
+    private Camera cam;
+    [SerializeField]
+    private BackgroundManager bgMng;
+    [SerializeField]
+    private PrintController printController;
+    [SerializeField]
+    private UI_Manager uiMng;
+    [SerializeField]
+    private ShapeController shapeCtrl;
+    [SerializeField]
+    private ShapeSpawnController spawnCtrl;
+    [SerializeField]
+    private ScoreController scoreCtrl;
+    [SerializeField]
+    private SoundManager soundMng;
+    [SerializeField]
+    private MusicSoundController musicCtrl;
+
+    private GameSMController smCtrl;
 
     private void Awake()
     {
@@ -30,16 +40,6 @@ public class GameManager : MonoBehaviour
     public void Setup(GameSMController _smCtrl)
     {
         smCtrl = _smCtrl;
-        uiMng = FindObjectOfType<UI_Manager>();
-        shapeCtrl = FindObjectOfType<ShapeController>();
-        spawnCtrl = FindObjectOfType<ShapeSpawnController>();
-        cam = FindObjectOfType<Camera>();
-        bgMng = FindObjectOfType<BackgroundManager>();
-        printController = FindObjectOfType<PrintController>();
-        scoreCtrl = FindObjectOfType<ScoreController>();
-        musicCtrl = FindObjectOfType<MusicSoundController>();
-        soundMng = FindObjectOfType<SoundManager>();
-
         uiMng.Setup(this);
         soundMng.Setup(this);
         musicCtrl.Init(soundMng);

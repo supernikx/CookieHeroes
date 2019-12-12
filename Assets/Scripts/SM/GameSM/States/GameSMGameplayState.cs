@@ -8,6 +8,7 @@ using System.Collections;
 /// </summary>
 public class GameSMGameplayState : GameSMBaseState
 {
+    GameManager gm;
     ScoreController scoreCtrl;
     UnityAdsManager adsMng;
     ShapeController shapeCtrl;
@@ -29,19 +30,20 @@ public class GameSMGameplayState : GameSMBaseState
     {
         startState = false;
         adsMng = UnityAdsManager.instance;
-        spawnCtrl = context.GetGameManager().GetSpawnController();
-        uiMng = context.GetGameManager().GetUIManager();
-        shapeCtrl = context.GetGameManager().GetShapeController();
-        bgMng = context.GetGameManager().GetBackgroundManager();
-        printCtrl = context.GetGameManager().GetPrintController();
-        scoreCtrl = context.GetGameManager().GetScoreController();
-        musicCtrl = context.GetGameManager().GetMusicController();
+        gm = context.GetGameManager();
+        spawnCtrl = gm.GetSpawnController();
+        uiMng = gm.GetUIManager();
+        shapeCtrl = gm.GetShapeController();
+        bgMng = gm.GetBackgroundManager();
+        printCtrl = gm.GetPrintController();
+        scoreCtrl = gm.GetScoreController();
+        musicCtrl = gm.GetMusicController();
 
         PrintController.OnShapeGuessed += HandleOnShapeGuessed;
         PrintController.OnShapeWrong += HandleOnShapeWrong;
         ShapeController.OnShapeChanged += HandleOnShapeChange;
         ShapeController.OnNewShapeAdd += HandleOnNewShapeAdd;
-        context.GetGameManager().OnGameEnd += HandleOnGameEnd;
+        gm.OnGameEnd += HandleOnGameEnd;
 
         gameplayPanel = uiMng.GetMenu<UIMenu_Gameplay>();
         printCtrl.EnableGraphic(false);
@@ -218,7 +220,9 @@ public class GameSMGameplayState : GameSMBaseState
 
     public override void Exit()
     {
-        context.GetGameManager().OnGameEnd -= HandleOnGameEnd;
+        if (gm != null)
+            gm.OnGameEnd -= HandleOnGameEnd;
+
         ShapeController.OnShapeChanged -= HandleOnShapeChange;
         ShapeController.OnNewShapeAdd -= HandleOnNewShapeAdd;
         PrintController.OnShapeGuessed -= HandleOnShapeGuessed;

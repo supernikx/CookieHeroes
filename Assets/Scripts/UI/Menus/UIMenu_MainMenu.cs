@@ -14,6 +14,8 @@ public class UIMenu_MainMenu : UIControllerBase
 
     [Header("Panel References")]
     [SerializeField]
+    private GameObject panelContainer;
+    [SerializeField]
     private Toggle vibrationToggle;
     [SerializeField]
     private Toggle soundToggle;
@@ -48,6 +50,11 @@ public class UIMenu_MainMenu : UIControllerBase
             else
                 highScoreText.SetActive(false);
         }
+    }
+
+    public void EnablePanelContainer(bool _enable)
+    {
+        panelContainer.SetActive(_enable);
     }
 
     public void StartGame()

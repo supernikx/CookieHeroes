@@ -10,6 +10,7 @@ public class GameSMEndGame : GameSMBaseState
     [SerializeField]
     private int retryForAds;
 
+    GameManager gm;
     ShapeSpawnController spawnCtrl;
     BackgroundManager bgMng;
     PrintController printCtrl;
@@ -20,12 +21,13 @@ public class GameSMEndGame : GameSMBaseState
 
     public override void Enter()
     {
-        uiMng = context.GetGameManager().GetUIManager();
+        gm = context.GetGameManager();
+        uiMng = gm.GetUIManager();
         endGamePanel = uiMng.GetMenu<UIMenu_EndGame>();
-        spawnCtrl = context.GetGameManager().GetSpawnController();
-        printCtrl = context.GetGameManager().GetPrintController();
-        bgMng = context.GetGameManager().GetBackgroundManager();
-        musicCtrl = context.GetGameManager().GetMusicController();
+        spawnCtrl = gm.GetSpawnController();
+        printCtrl = gm.GetPrintController();
+        bgMng = gm.GetBackgroundManager();
+        musicCtrl = gm.GetMusicController();
 
         endGamePanel.RetyButtonPressed = RetryButtonPressed;
         endGamePanel.MainMenuButtonPressed = MainMenuButtonPressed;

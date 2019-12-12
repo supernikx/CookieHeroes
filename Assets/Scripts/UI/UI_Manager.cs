@@ -50,8 +50,8 @@ public class UI_Manager : UIManagerBase
 
     public void EndAnimationCallback()
     {
-        anim.SetTrigger("GoToEmpty");
         currentAnimPanel.Enable(true);
+        anim.SetTrigger("GoToEmpty");
         currentAnimPanel = null;
 
         currentAnimPanelCallback?.Invoke();

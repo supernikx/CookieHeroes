@@ -6,18 +6,21 @@ using IC.BaseSM;
 /// </summary>
 public class GameSMMenuState : GameSMBaseState
 {
+    GameManager gm;
     UI_Manager uiMng;
     UIMenu_MainMenu mainMenuPanel;
     MusicSoundController musicCtrl;
 
     public override void Enter()
     {
-        uiMng = context.GetGameManager().GetUIManager();
+        gm = context.GetGameManager();
+        musicCtrl = gm.GetMusicController();
+        uiMng = gm.GetUIManager();
         mainMenuPanel = uiMng.GetMenu<UIMenu_MainMenu>();
-        musicCtrl = context.GetGameManager().GetMusicController();
 
-        musicCtrl.PlayMainMenuClip();
         uiMng.SetCurrentMenuAnimation<UIMenu_MainMenu>("MainMenuIn");
+        CoroutineController.StartRoutine(() => mainMenuPanel.EnablePanelContainer(true), 0.01f);
+        musicCtrl.PlayMainMenuClip();
         mainMenuPanel.StartGameButtonPressed = StartGameButtonPressed;
     }
 
@@ -28,6 +31,7 @@ public class GameSMMenuState : GameSMBaseState
 
     private void OnMainMenuAnimationEndCallback()
     {
+        mainMenuPanel.EnablePanelContainer(false);
         Complete();
     }
 
