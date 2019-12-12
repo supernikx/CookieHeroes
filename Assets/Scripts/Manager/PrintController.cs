@@ -8,6 +8,12 @@ public class PrintController : MonoBehaviour
     public static Action OnShapeGuessed;
     public static Action OnShapeWrong;
 
+    [Header("Reference")]
+    [SerializeField]
+    private Animator anim;
+    [SerializeField]
+    private GenericSoundController soundCtrl;
+
     [Header("Print Settings")]
     [SerializeField]
     private GameObject graphic;
@@ -18,10 +24,8 @@ public class PrintController : MonoBehaviour
     [SerializeField]
     private Image rightButtonImage;
     [SerializeField]
-    private Image leftButtonImage;
-
-    private Animator anim;
-    private GenericSoundController soundCtrl;
+    private Image leftButtonImage;    
+    
     private bool readCollision;
     private Sprite defaultLeftSprite;
     private Sprite defaultRightSprite;
@@ -29,9 +33,6 @@ public class PrintController : MonoBehaviour
 
     public void Setup()
     {
-        anim = GetComponent<Animator>();
-        soundCtrl = GetComponent<GenericSoundController>();
-
         defaultLeftSprite = greenButtonSprite;
         defaultRightSprite = greenButtonSprite;
         readCollision = true;
