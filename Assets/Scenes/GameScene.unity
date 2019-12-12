@@ -2933,12 +2933,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cff437ab0a43ee047914ab080b82617b, type: 2}
   - {fileID: 11400000, guid: 762937252452b0443bd94dd2896be0be, type: 2}
   addShapes:
-  - {fileID: 11400000, guid: 07e93cacd2b786446962eb533de969aa, type: 2}
-  - {fileID: 11400000, guid: d2754341ec8d01f48aec02cd932bcbd3, type: 2}
-  - {fileID: 11400000, guid: caf51ce96520708428a3972d8bb9508d, type: 2}
-  - {fileID: 11400000, guid: 490bc75e9d405924a8822a2d9deaeb8d, type: 2}
+  - shape: {fileID: 11400000, guid: 07e93cacd2b786446962eb533de969aa, type: 2}
+    addNewShapeAfter: 15
+  - shape: {fileID: 11400000, guid: d2754341ec8d01f48aec02cd932bcbd3, type: 2}
+    addNewShapeAfter: 17
+  - shape: {fileID: 11400000, guid: caf51ce96520708428a3972d8bb9508d, type: 2}
+    addNewShapeAfter: 19
+  - shape: {fileID: 11400000, guid: 490bc75e9d405924a8822a2d9deaeb8d, type: 2}
+    addNewShapeAfter: 21
+  - shape: {fileID: 11400000, guid: 08edeef5f74134e49b021491716fcc87, type: 2}
+    addNewShapeAfter: 25
+  - shape: {fileID: 11400000, guid: 99ac021b94aebfc49bfb9555817eaf1c, type: 2}
+    addNewShapeAfter: 35
+  - shape: {fileID: 11400000, guid: 39306a3dc5bf50d438981c07d582c950, type: 2}
+    addNewShapeAfter: 70
   startShapeIndex: 0
-  addNewShapeAfter: 15
 --- !u!1 &642408800
 GameObject:
   m_ObjectHideFlags: 0
@@ -5416,7 +5425,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20.76}
   m_AnchorMin: {x: 0.045122746, y: 0.42431694}
   m_AnchorMax: {x: 0.9558289, y: 0.7553849}
-  m_AnchoredPosition: {x: -21.499847, y: -1.5}
+  m_AnchoredPosition: {x: -21.500092, y: -1.5}
   m_SizeDelta: {x: -123.70001, y: -309.59998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1457772337
@@ -6603,7 +6612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableAds: 1
   gameID: 3378989
-  testMode: 1
+  testMode: 0
   rewardedVideoPlacementID: rewardedVideo
   regularPlacementID: video
 --- !u!114 &1855727370

@@ -34,6 +34,7 @@ public class UIMenu_EndGame : UIControllerBase
         if (isActive)
         {
             highScoreText.SetActive(false);
+            cookieCounterText.text = "0";
         }
         else
         {
@@ -70,8 +71,7 @@ public class UIMenu_EndGame : UIControllerBase
     private IEnumerator CounterCoroutine(int _cookieCount)
     {
         int cookieCount = 0;
-        bool highScore = scoreCtrl.CheckHighScore();
-        cookieCounterText.text = cookieCount.ToString();
+        bool highScore = scoreCtrl.CheckHighScore();        
 
         cookieCounterText.gameObject.transform.localScale = cookieCounterText.gameObject.transform.localScale * 1.2f;
         while (cookieCount < _cookieCount)

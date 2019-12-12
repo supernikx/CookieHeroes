@@ -12,17 +12,22 @@ public class ShapeController : MonoBehaviour
     public static Action<ShapeScriptable> OnNewShapeAdd;
     #endregion
 
+    [System.Serializable]
+    private class AddShapeClass
+    {
+        public ShapeScriptable shape;
+        public int addNewShapeAfter;
+    }
+
     [SerializeField]
     private List<ShapeScriptable> startShapes;
     [SerializeField]
-    private List<ShapeScriptable> addShapes;
+    private List<AddShapeClass> addShapes;
     [SerializeField]
     private int startShapeIndex;
-    [SerializeField]
-    private int addNewShapeAfter;
 
     private GameManager gm;
-    private List<ShapeScriptable> shapesToAdd;
+    private List<AddShapeClass> shapesToAdd;
     private List<ShapeScriptable> currentShapes;
     private int shapeIndex = 0;
     private int shapeGuessed;
@@ -32,7 +37,7 @@ public class ShapeController : MonoBehaviour
         i = this;
         gm = _gm;
 
-        shapesToAdd = new List<ShapeScriptable>(addShapes);
+        shapesToAdd = new List<AddShapeClass>(addShapes);
         currentShapes = new List<ShapeScriptable>(startShapes);
 
         PrintController.OnShapeGuessed += HandleOnShapeGuessed;
@@ -104,12 +109,17 @@ public class ShapeController : MonoBehaviour
         return _shapeIndex;
     }
 
+    public static int GetShapeAmmount()
+    {
+        return i.currentShapes.Count;
+    }
+
     public static void AddNewShape()
     {
         if (i.shapesToAdd != null && i.shapesToAdd.Count > 0)
         {
             i.shapeGuessed = 0;
-            ShapeScriptable shapeToAdd = i.shapesToAdd[0];
+            ShapeScriptable shapeToAdd = i.shapesToAdd[0].shape;
             i.shapesToAdd.RemoveAt(0);
             i.currentShapes.Add(shapeToAdd);
             OnNewShapeAdd?.Invoke(shapeToAdd);
@@ -121,12 +131,12 @@ public class ShapeController : MonoBehaviour
         if (i.shapesToAdd.Count == 0)
             return false;
 
-        return i.shapeGuessed + _shapesInGame == i.addNewShapeAfter;
+        return i.shapeGuessed + _shapesInGame == i.shapesToAdd[0].addNewShapeAfter;
     }
 
     private void HandleGameEnd()
     {
-        shapesToAdd = new List<ShapeScriptable>(addShapes);
+        shapesToAdd = new List<AddShapeClass>(addShapes);
         currentShapes = new List<ShapeScriptable>(startShapes);
         shapeIndex = startShapeIndex;
         shapeGuessed = 0;
@@ -138,7 +148,7 @@ public class ShapeController : MonoBehaviour
             return;
 
         shapeGuessed++;
-        if (shapeGuessed == addNewShapeAfter)
+        if (shapeGuessed == shapesToAdd[0].addNewShapeAfter)
         {
             CoroutineController.StartRoutine(AddNewShape, 0.5f);
         }

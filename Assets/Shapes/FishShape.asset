@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6801e6eb79866af488bb53f577b3df5d, type: 3}
-  m_Name: OminoShape
+  m_Name: FishShape
   m_EditorClassIdentifier: 
-  guessShapeSprite: {fileID: 21300000, guid: e94516145d4753242a06a7271e92b857, type: 3}
-  shapeSprite: {fileID: 21300000, guid: e94516145d4753242a06a7271e92b857, type: 3}
-  uiShapeSprite: {fileID: 21300000, guid: 52d8ec7ae15fe5342b226bbb35c053af, type: 3}
-  shadowSprite: {fileID: 21300000, guid: 351ad44c0c95a0640befcb8d67c82c8e, type: 3}
+  guessShapeSprite: {fileID: 21300000, guid: 8fb8ca4c3ea8f4d4cabddc5cecf53764, type: 3}
+  shapeSprite: {fileID: 21300000, guid: 8fb8ca4c3ea8f4d4cabddc5cecf53764, type: 3}
+  uiShapeSprite: {fileID: 21300000, guid: b9c5f83f6cacdf743b091622996bfffa, type: 3}
+  shadowSprite: {fileID: 21300000, guid: 93ccbbceda0f1cf429d677132861a2c0, type: 3}

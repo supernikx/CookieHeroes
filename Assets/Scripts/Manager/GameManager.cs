@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
         shapeCtrl.Setup(this);
         spawnCtrl.Setup(this);
         printController.Setup();
-        bgMng.Setup();        
+        bgMng.Setup();
     }
 
     public BackgroundManager GetBackgroundManager()
@@ -97,6 +98,12 @@ public class GameManager : MonoBehaviour
 
     public static void GameOver()
     {
+        Analytics.CustomEvent("gameOver", new Dictionary<string, object>
+        {
+        { "Speed", DifficultyManager.GetMovementSpeed() },
+        { "SpawnRate", DifficultyManager.GetCurrentSpawnRate() },
+        { "ShapeAmmount", ShapeController.GetShapeAmmount() }
+        });
         i.OnGameEnd?.Invoke();
     }
 }
