@@ -18,6 +18,7 @@ public class GameSMEndGame : GameSMBaseState
     UIMenu_EndGame endGamePanel;
     MusicSoundController musicCtrl;
     int currentRetries = 0;
+    int completeCode;
 
     public override void Enter()
     {
@@ -65,6 +66,7 @@ public class GameSMEndGame : GameSMBaseState
         if (currentRetries == retryForAds)
         {
             currentRetries = 0;
+            completeCode = 2;
             UnityAdsManager.instance.ShowRegularAD(AdShowed);
         }
         else
@@ -77,6 +79,7 @@ public class GameSMEndGame : GameSMBaseState
         if (currentRetries == retryForAds)
         {
             currentRetries = 0;
+            completeCode = 1;
             UnityAdsManager.instance.ShowRegularAD(AdShowed);
         }
         else
@@ -85,7 +88,7 @@ public class GameSMEndGame : GameSMBaseState
 
     private void AdShowed(ShowResult _results)
     {
-        Complete();
+        Complete(completeCode);
     }
 
     public override void Exit()

@@ -98,6 +98,11 @@ public class GameManager : MonoBehaviour
 
     public static void GameOver()
     {
+        Analytics.CustomEvent("highScore", new Dictionary<string, object>
+        {
+        { "Score",i.scoreCtrl.GetCurrentScore() }
+        });
+
         Analytics.CustomEvent("gameOver", new Dictionary<string, object>
         {
         { "Speed", DifficultyManager.GetMovementSpeed() },

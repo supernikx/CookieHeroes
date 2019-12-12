@@ -2726,7 +2726,7 @@ GameObject:
   - component: {fileID: 604388116}
   - component: {fileID: 604388115}
   m_Layer: 5
-  m_Name: HighScoreScore
+  m_Name: BestScoreScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2799,7 +2799,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 63.55
+  m_fontSize: 63.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5403,7 +5403,7 @@ GameObject:
   - component: {fileID: 1457772338}
   - component: {fileID: 1457772337}
   m_Layer: 5
-  m_Name: NewHighScore
+  m_Name: NewBestScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5448,7 +5448,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: NEW HIGH SCORE!!!
+  m_text: NEW BEST SCORE!!!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0782512bfd5ce2044b458a8680d4fb36, type: 2}
   m_sharedMaterial: {fileID: 7312081701003569801, guid: 0782512bfd5ce2044b458a8680d4fb36,
@@ -5477,7 +5477,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 141.1
+  m_fontSize: 140.85
   m_fontSizeBase: 195
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6911,7 +6911,7 @@ GameObject:
   - component: {fileID: 2043568768}
   - component: {fileID: 2043568767}
   m_Layer: 5
-  m_Name: HigScoreText
+  m_Name: BestScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6932,10 +6932,10 @@ RectTransform:
   m_Father: {fileID: 1857019438}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -22.16}
-  m_AnchorMin: {x: 0.18134508, y: 0.18900001}
-  m_AnchorMax: {x: 0.5566362, y: 0.3223189}
-  m_AnchoredPosition: {x: -0.5, y: 3.000122}
-  m_SizeDelta: {x: -18.400002, y: -140.6}
+  m_AnchorMin: {x: 0.15714642, y: 0.18900001}
+  m_AnchorMax: {x: 0.55843925, y: 0.32700002}
+  m_AnchoredPosition: {x: 0.2999878, y: 3.0999756}
+  m_SizeDelta: {x: -22.2, y: -149.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2043568767
 MonoBehaviour:
@@ -6957,7 +6957,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'HIG SCORE:'
+  m_text: 'Best SCORE:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0782512bfd5ce2044b458a8680d4fb36, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 18fc180fe5d584547bdd7f748b8e955e, type: 2}
@@ -6985,7 +6985,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 56.7
+  m_fontSize: 52.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7026,7 +7026,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2043568767}
-    characterCount: 10
+    characterCount: 11
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
