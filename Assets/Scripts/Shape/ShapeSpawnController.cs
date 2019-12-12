@@ -22,13 +22,13 @@ public class ShapeSpawnController : MonoBehaviour
         spawnedShapes = new List<ShapeMatch>();
     }
 
-    public void StartSpawn()
+    public void StartSpawn(ShapeScriptable _firstShape = null)
     {
         ShapeController.OnNewShapeAdd += HandleOnNewShapeAdd;
         ShapeMatch.ShapeDestroied += HandleShapeDestroyed;
         nextShape = null;
 
-        spawnWaveRoutine = SpawnShapeCoroutine();
+        spawnWaveRoutine = SpawnShapeCoroutine(_firstShape);
         StartCoroutine(spawnWaveRoutine);
     }
 
@@ -52,7 +52,7 @@ public class ShapeSpawnController : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnShapeCoroutine()
+    private IEnumerator SpawnShapeCoroutine(ShapeScriptable _firstShape)
     {
         yield return new WaitForSeconds(startDelayTime);
 
@@ -65,6 +65,11 @@ public class ShapeSpawnController : MonoBehaviour
                 nextShape = null;
 
                 yield return new WaitForSeconds(0.7f);
+            }
+            else if (_firstShape != null)
+            {
+                shapeToSpawn = _firstShape;
+                _firstShape = null;
             }
             else
             {

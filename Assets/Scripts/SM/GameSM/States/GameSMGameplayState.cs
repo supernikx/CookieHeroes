@@ -19,6 +19,7 @@ public class GameSMGameplayState : GameSMBaseState
     UIMenu_Gameplay gameplayPanel;
     MusicSoundController musicCtrl;
 
+    int tutorialTimes = 0;
     float changeShapeDelayTime = 0.05f;
     float changeShapeDelayTimer;
     bool startState;
@@ -65,16 +66,20 @@ public class GameSMGameplayState : GameSMBaseState
         bgMng.StartBackground();
         videoAlreadyWhatched = false;
 
-        int firstGame = PlayerPrefs.GetInt("Tutorial", 0);
+        DifficultyManager.StartGame();
+
+        int firstGame =  PlayerPrefs.GetInt("Tutorial", 0);
         if (firstGame == 0)
         {
             readInput = false;
-            isTutorial = false;
-            CoroutineController.StartRoutine(StartTutotrial, 3f);
+            isTutorial = true;
+            tutorialTimes++;
+            gameplayPanel.EnableTutorialPanel(true);
+            spawnCtrl.StartSpawn(ShapeController.GetShapeByIndex(ShapeController.GetCurrentShapeIndex() - 1));
+            CoroutineController.StartRoutine(StartTutotrial, 6.5f);
         }
         else
         {
-            DifficultyManager.StartGame();
             spawnCtrl.StartSpawn();
             readInput = true;
             isTutorial = false;
@@ -104,26 +109,24 @@ public class GameSMGameplayState : GameSMBaseState
             if (isTutorial)
                 EndTutorial();
         }
-        else if (readInput && SwipeController.IsSwiping(Direction.Left))
+        else if ((readInput || isTutorial) && SwipeController.IsSwiping(Direction.Left))
         {
             SwipeController.LeftSwipe();
             shapeCtrl.ChangeShape(Direction.Left, true);
             changeShapeDelayTimer = changeShapeDelayTime;
+
+            if (isTutorial)
+                EndTutorial();
         }
     }
 
     #region Tutorial
     private void StartTutotrial()
     {
-        spawnCtrl.SpawnShape(ShapeController.GetShapeByIndex(ShapeController.GetCurrentShapeIndex() - 1));
-        CoroutineController.StartRoutine(Tutorial, 1.5f);
-    }
-
-    private void Tutorial()
-    {
-        Time.timeScale = 0f;
-        gameplayPanel.EnableTutorialPanel(true);
-        isTutorial = true;
+        if (isTutorial)
+        {
+            Time.timeScale = 0f;
+        }
     }
 
     private void EndTutorial()
@@ -133,9 +136,9 @@ public class GameSMGameplayState : GameSMBaseState
         readInput = true;
 
         gameplayPanel.EnableTutorialPanel(false);
-        PlayerPrefs.SetInt("Tutorial", 1);
 
-        CoroutineController.StartRoutine(StartGameDelay, 1f);
+        if (tutorialTimes == 3)
+            PlayerPrefs.SetInt("Tutorial", 1);
     }
 
     private void StartGameDelay()
