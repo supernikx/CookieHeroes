@@ -48,6 +48,10 @@ public class UIMenu_Gameplay : UIControllerBase
     private GameObject gradientImage;
     [SerializeField]
     private float panelDuration;
+    [SerializeField]
+    private GameObject afterVideoPanel;
+    [SerializeField]
+    private TextMeshProUGUI afterVideoCounterText;
 
     private Vector3 rightStartPos;
     private Vector3 leftStartPos;
@@ -64,6 +68,7 @@ public class UIMenu_Gameplay : UIControllerBase
     public override void CustomSetup()
     {
         videoRewardPanel.SetActive(false);
+        afterVideoPanel.SetActive(false);
         tutorialPanel.SetActive(false);
         newShapeText.SetActive(false);
 
@@ -270,6 +275,14 @@ public class UIMenu_Gameplay : UIControllerBase
         StartCoroutine(videoRewardPanelRoutine);
     }
 
+    public void EnableAfterVideoPanel(Action _OnPanelEnd)
+    {
+        if (videoRewardPanelRoutine != null)
+            StopCoroutine(videoRewardPanelRoutine);
+
+        StartCoroutine(AfterVideoPanelCoroutine(_OnPanelEnd));
+    }
+
     public void PlayVideoButton()
     {
         if (!canShowAd)
@@ -288,8 +301,6 @@ public class UIMenu_Gameplay : UIControllerBase
         switch (_results)
         {
             case ShowResult.Failed:
-                result = false;
-                break;
             case ShowResult.Skipped:
                 result = false;
                 break;
@@ -324,6 +335,23 @@ public class UIMenu_Gameplay : UIControllerBase
 
         videoRewardPanel.SetActive(false);
         OnPanelEndCallback?.Invoke(false);
+    }
+
+    private IEnumerator AfterVideoPanelCoroutine(Action _OnPanelEnd)
+    {
+        int timer = 3;        
+        afterVideoPanel.SetActive(true);
+        WaitForSecondsRealtime wfsrt = new WaitForSecondsRealtime(1f);
+
+        while (timer > 0)
+        {
+            afterVideoCounterText.text = timer.ToString();            
+            yield return wfsrt;
+            timer--;
+        }
+
+        afterVideoPanel.SetActive(false);
+        _OnPanelEnd?.Invoke();
     }
     #endregion
 

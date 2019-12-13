@@ -86,6 +86,11 @@ public class DifficultyManager : MonoBehaviour
         return i.currentMovementSpeed * Time.deltaTime;
     }
 
+    public static float GetCurrentMovementSpeed()
+    {
+        return i.currentMovementSpeed;
+    }
+
     public static float GetCurrentSpawnRate()
     {
         return i.currentSpawnRate;

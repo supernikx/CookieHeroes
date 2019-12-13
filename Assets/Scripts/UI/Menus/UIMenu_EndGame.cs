@@ -12,6 +12,8 @@ public class UIMenu_EndGame : UIControllerBase
     [SerializeField]
     private TextMeshProUGUI cookieCounterText;
     [SerializeField]
+    private float cookieCounterDuration = 5f;
+    [SerializeField]
     private GameObject highScoreText;
     [SerializeField]
     private GenericSoundController traySoundCtrl;
@@ -71,17 +73,17 @@ public class UIMenu_EndGame : UIControllerBase
     private IEnumerator CounterCoroutine(int _cookieCount)
     {
         int cookieCount = 0;
+        int start = cookieCount;
         bool highScore = scoreCtrl.CheckHighScore();        
 
-        cookieCounterText.gameObject.transform.localScale = cookieCounterText.gameObject.transform.localScale * 1.2f;
-        while (cookieCount < _cookieCount)
+        for (float timer = 0; timer < cookieCounterDuration; timer += Time.deltaTime)
         {
+            float progress = timer / cookieCounterDuration;
+            cookieCount = (int)Mathf.Lerp(start, _cookieCount, progress);
             cookieCounterText.text = cookieCount.ToString();
             yield return null;
-            cookieCount += 25;
         }
-
-        cookieCounterText.gameObject.transform.localScale = cookieCounterText.gameObject.transform.localScale / 1.2f;
+        cookieCount = _cookieCount;
         cookieCounterText.text = cookieCount.ToString();
 
         highScoreText.SetActive(highScore);

@@ -87,6 +87,13 @@ public class GameSMGameplayState : GameSMBaseState
 
         startState = true;
     }
+
+    private void CallbackAfterVideoPanel()
+    {
+        Time.timeScale = 1;
+        readInput = true;
+        videoAlreadyWhatched = true;
+    }
     #endregion
 
     public override void Tick()
@@ -204,14 +211,14 @@ public class GameSMGameplayState : GameSMBaseState
 
     private void HandleOnRewardedVideoEnd(bool _result)
     {
-        Time.timeScale = 1;
-
         if (!_result)
+        {
+            Time.timeScale = 1;
             GameManager.GameOver();
+        }
         else
         {
-            readInput = true;
-            videoAlreadyWhatched = true;
+            gameplayPanel.EnableAfterVideoPanel(CallbackAfterVideoPanel);
         }
     }
 
